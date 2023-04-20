@@ -4,7 +4,7 @@ USERNAME="Giga Chkhikvadze"
 USER_EMAIL="giga.chkhikvadze@email.com"
 
 # Set the OpenAPI Generator options
-CONFIG_FILE="$(pwd)/openapi/typescript-config.json"
+CONFIG_FILE="$(pwd)/typescript-config.json"
 OUTPUT_DIR="$(pwd)"
 
 # Generate the client or server code
