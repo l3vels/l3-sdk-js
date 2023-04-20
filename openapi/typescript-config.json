@@ -6,7 +6,7 @@
       "withInterfaces": false,
       "withSeparateModelsAndApi": true,
       "modelPropertyNaming": "camelCase",
-      "supportsES6": false,
+      "supportsES6": true,
       "useSingleRequestParameter": true,
       "enumPropertyNaming": "UPPERCASE",
       "fetchApi": "isomorphic-fetch",
