@@ -5,7 +5,7 @@ USER_EMAIL="giga.chkhikvadze@email.com"
 
 # Set the OpenAPI Generator options
 CONFIG_FILE="$(pwd)/openapi/typescript-config.json"
-OUTPUT_DIR="generated/sdk-js"
+OUTPUT_DIR=""
 
 # Generate the client or server code
 npx @openapitools/openapi-generator-cli generate -c "$CONFIG_FILE" -o "$OUTPUT_DIR"
