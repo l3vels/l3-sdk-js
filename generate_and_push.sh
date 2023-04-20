@@ -7,7 +7,7 @@ USERNAME="${USERNAME}"
 USER_EMAIL="${USER_EMAIL}"
 
 # Set the OpenAPI Generator options
-CONFIG_FILE="$(pwd)/openapi/typescript-config.json"
+CONFIG_FILE="$(pwd)/typescript-config.json"
 OUTPUT_DIR="$(pwd)"
 
 env | grep OPEN_API_URL
