@@ -15,6 +15,8 @@ jobs:
         OPEN_API_URL: ${{ github.event.client_payload.open_api_url }}
         PACKAGE_VERSION: ${{ github.event.client_payload.package_version }}
         COMMIT_NAME: ${{ github.event.client_payload.commit_name }}
+        USERNAME: ${{ secrets.GITHUB_USERNAME }}
+        USER_EMAIL: ${{ secrets.GITHUB_USER_EMAIL }}
       run: |
         # Call the generate_and_push.sh script and pass the environment variables
         ./generate_and_push.sh "$OPEN_API_URL" "$PACKAGE_VERSION" "$COMMIT_NAME"

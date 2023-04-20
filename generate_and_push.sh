@@ -1,10 +1,11 @@
 #!/bin/bash
 
-OPEN_API_URL=$OPEN_API_URL
+OPEN_API_URL=$OPEN_API_URL:-"https://api.l3vels.xyz/docs-json"
 PACKAGE_VERSION=$PACKAGE_VERSION
+COMMIT_NAME="${COMMIT_NAME:-"Update generated code"}"
 
-USERNAME="${USERNAME}"
-USER_EMAIL="${USER_EMAIL}"
+USERNAME="${USERNAME:-"Giga Chkhikvadze"}"
+USER_EMAIL="${USER_EMAIL:-"giga.chkhikvadze@gmail.com"}"
 
 # Set the OpenAPI Generator options
 CONFIG_FILE="$(pwd)/typescript-config.json"
