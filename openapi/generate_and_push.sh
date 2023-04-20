@@ -5,7 +5,7 @@ USER_EMAIL="giga.chkhikvadze@email.com"
 
 # Set the OpenAPI Generator options
 CONFIG_FILE="$(pwd)/openapi/typescript-config.json"
-OUTPUT_DIR=""
+OUTPUT_DIR="$(pwd)"
 
 # Generate the client or server code
 npx @openapitools/openapi-generator-cli generate -c "$CONFIG_FILE" -o "$OUTPUT_DIR"
@@ -16,7 +16,7 @@ git config user.name "$USERNAME"
 git config user.email "$USER_EMAIL"
 
 # Add, commit, and push the changes
-git add generated/
+git add .
 git commit -m "Update generated source code"
 git pull --rebase origin main
 git push origin HEAD
