@@ -1,6 +1,5 @@
 {
     "generatorName": "typescript-fetch",
-    "inputSpec": "https://api-dev.l3vels.xyz/docs-json",
     "additionalProperties": {
       "snapshot": false,
       "withInterfaces": false,
