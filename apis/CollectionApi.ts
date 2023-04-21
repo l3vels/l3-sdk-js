@@ -22,13 +22,18 @@ import {
     CollectionToJSON,
 } from '../models';
 
-export interface CollectionControllerCollectionByIdRequest {
+export interface CountCollectionsByGameIdRequest {
+    authorization: string;
+    projectId: string;
+}
+
+export interface GetCollectionByIdRequest {
     authorization: string;
     id: string;
     projectId: string;
 }
 
-export interface CollectionControllerCollectionsRequest {
+export interface GetCollectionsRequest {
     authorization: string;
     projectId: string;
     sort?: string;
@@ -38,31 +43,70 @@ export interface CollectionControllerCollectionsRequest {
     page?: number;
 }
 
-export interface CollectionControllerCollectionsCountByGameIdRequest {
-    authorization: string;
-    projectId: string;
-}
-
 /**
  * 
  */
 export class CollectionApi extends runtime.BaseAPI {
 
     /**
-     * This API method retrieves a specific collection based on the unique identifier provided in the request.
-     * Retrieve collection by ID
+     * Count total collections in game.
+     * Count collections
      */
-    async collectionControllerCollectionByIdRaw(requestParameters: CollectionControllerCollectionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Collection>> {
+    async countCollectionsByGameIdRaw(requestParameters: CountCollectionsByGameIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling collectionControllerCollectionById.');
-        }
-
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling collectionControllerCollectionById.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling countCollectionsByGameId.');
         }
 
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling collectionControllerCollectionById.');
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling countCollectionsByGameId.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/v1/collection/count/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Count total collections in game.
+     * Count collections
+     */
+    async countCollectionsByGameId(requestParameters: CountCollectionsByGameIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.countCollectionsByGameIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * This API method retrieves a specific collection based on the unique identifier provided in the request.
+     * Retrieve collection by ID
+     */
+    async getCollectionByIdRaw(requestParameters: GetCollectionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Collection>> {
+        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getCollectionById.');
+        }
+
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getCollectionById.');
+        }
+
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getCollectionById.');
         }
 
         const queryParameters: any = {};
@@ -87,8 +131,8 @@ export class CollectionApi extends runtime.BaseAPI {
      * This API method retrieves a specific collection based on the unique identifier provided in the request.
      * Retrieve collection by ID
      */
-    async collectionControllerCollectionById(requestParameters: CollectionControllerCollectionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Collection> {
-        const response = await this.collectionControllerCollectionByIdRaw(requestParameters, initOverrides);
+    async getCollectionById(requestParameters: GetCollectionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Collection> {
+        const response = await this.getCollectionByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -96,13 +140,13 @@ export class CollectionApi extends runtime.BaseAPI {
      * This API method retrieves a list of collections that match the specified filter criteria. Developers can use this method to retrieve collections by name, category, status, or other properties.
      * Retrieve collections
      */
-    async collectionControllerCollectionsRaw(requestParameters: CollectionControllerCollectionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Collection>>> {
+    async getCollectionsRaw(requestParameters: GetCollectionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Collection>>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling collectionControllerCollections.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getCollections.');
         }
 
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling collectionControllerCollections.');
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getCollections.');
         }
 
         const queryParameters: any = {};
@@ -151,52 +195,8 @@ export class CollectionApi extends runtime.BaseAPI {
      * This API method retrieves a list of collections that match the specified filter criteria. Developers can use this method to retrieve collections by name, category, status, or other properties.
      * Retrieve collections
      */
-    async collectionControllerCollections(requestParameters: CollectionControllerCollectionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Collection>> {
-        const response = await this.collectionControllerCollectionsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Count total collections in game.
-     * Count collections
-     */
-    async collectionControllerCollectionsCountByGameIdRaw(requestParameters: CollectionControllerCollectionsCountByGameIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
-        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling collectionControllerCollectionsCountByGameId.');
-        }
-
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling collectionControllerCollectionsCountByGameId.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
-            headerParameters['Authorization'] = String(requestParameters.authorization);
-        }
-
-        const response = await this.request({
-            path: `/v1/collection/count/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<number>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Count total collections in game.
-     * Count collections
-     */
-    async collectionControllerCollectionsCountByGameId(requestParameters: CollectionControllerCollectionsCountByGameIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
-        const response = await this.collectionControllerCollectionsCountByGameIdRaw(requestParameters, initOverrides);
+    async getCollections(requestParameters: GetCollectionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Collection>> {
+        const response = await this.getCollectionsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
