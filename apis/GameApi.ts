@@ -22,7 +22,7 @@ import {
     ProjectToJSON,
 } from '../models';
 
-export interface ProjectControllerProjectByIdRequest {
+export interface GetGameByIdRequest {
     authorization: string;
     id: string;
 }
@@ -36,13 +36,13 @@ export class GameApi extends runtime.BaseAPI {
      * Get game/project by ID created on the platform.
      * Retrieve Game
      */
-    async projectControllerProjectByIdRaw(requestParameters: ProjectControllerProjectByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Project>> {
+    async getGameByIdRaw(requestParameters: GetGameByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Project>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling projectControllerProjectById.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getGameById.');
         }
 
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling projectControllerProjectById.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getGameById.');
         }
 
         const queryParameters: any = {};
@@ -67,8 +67,8 @@ export class GameApi extends runtime.BaseAPI {
      * Get game/project by ID created on the platform.
      * Retrieve Game
      */
-    async projectControllerProjectById(requestParameters: ProjectControllerProjectByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Project> {
-        const response = await this.projectControllerProjectByIdRaw(requestParameters, initOverrides);
+    async getGameById(requestParameters: GetGameByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Project> {
+        const response = await this.getGameByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

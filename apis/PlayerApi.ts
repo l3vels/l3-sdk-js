@@ -28,6 +28,32 @@ import {
     PlayerAssetToJSON,
 } from '../models';
 
+export interface CountPlayersByGameIdRequest {
+    authorization: string;
+    projectId: string;
+}
+
+export interface CreatePlayerRequest {
+    authorization: string;
+    createPlayerDto: CreatePlayerDto;
+}
+
+export interface GetPlayerByIdRequest {
+    authorization: string;
+    id: string;
+    projectId: string;
+}
+
+export interface GetPlayersRequest {
+    authorization: string;
+    projectId: string;
+    sort?: string;
+    order?: string;
+    searchText?: string;
+    limit?: number;
+    page?: number;
+}
+
 export interface PlayerAssetControllerPlayerAssetByIdRequest {
     authorization: string;
     id: string;
@@ -45,37 +71,7 @@ export interface PlayerAssetControllerPlayerAssetsRequest {
     page?: number;
 }
 
-export interface PlayerControllerCreatePlayerRequest {
-    authorization: string;
-    createPlayerDto: CreatePlayerDto;
-}
-
-export interface PlayerControllerDeletePlayerRequest {
-    authorization: string;
-}
-
-export interface PlayerControllerGetPlayersRequest {
-    authorization: string;
-    projectId: string;
-    sort?: string;
-    order?: string;
-    searchText?: string;
-    limit?: number;
-    page?: number;
-}
-
-export interface PlayerControllerPlayerByIdRequest {
-    authorization: string;
-    id: string;
-    projectId: string;
-}
-
-export interface PlayerControllerPlayersCountByGameIdRequest {
-    authorization: string;
-    projectId: string;
-}
-
-export interface PlayerControllerUpdatePlayerRequest {
+export interface UpdatePlayerRequest {
     authorization: string;
 }
 
@@ -83,6 +79,201 @@ export interface PlayerControllerUpdatePlayerRequest {
  * 
  */
 export class PlayerApi extends runtime.BaseAPI {
+
+    /**
+     * Count players in game. Example: count players in game Call of Duty.
+     * Count players
+     */
+    async countPlayersByGameIdRaw(requestParameters: CountPlayersByGameIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling countPlayersByGameId.');
+        }
+
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling countPlayersByGameId.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/v1/player/count/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Count players in game. Example: count players in game Call of Duty.
+     * Count players
+     */
+    async countPlayersByGameId(requestParameters: CountPlayersByGameIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.countPlayersByGameIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Create new player for game/project. Example: Create new player Jack in game Call of Duty.
+     * Create new player
+     */
+    async createPlayerRaw(requestParameters: CreatePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Player>> {
+        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling createPlayer.');
+        }
+
+        if (requestParameters.createPlayerDto === null || requestParameters.createPlayerDto === undefined) {
+            throw new runtime.RequiredError('createPlayerDto','Required parameter requestParameters.createPlayerDto was null or undefined when calling createPlayer.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/v1/player`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreatePlayerDtoToJSON(requestParameters.createPlayerDto),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlayerFromJSON(jsonValue));
+    }
+
+    /**
+     * Create new player for game/project. Example: Create new player Jack in game Call of Duty.
+     * Create new player
+     */
+    async createPlayer(requestParameters: CreatePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Player> {
+        const response = await this.createPlayerRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieves a specific player by ID associated with game/project. Example: retrieve player Jack from game Call of Duty.
+     * Retrieve player by ID
+     */
+    async getPlayerByIdRaw(requestParameters: GetPlayerByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Player>> {
+        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getPlayerById.');
+        }
+
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getPlayerById.');
+        }
+
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getPlayerById.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/v1/player/{project_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlayerFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieves a specific player by ID associated with game/project. Example: retrieve player Jack from game Call of Duty.
+     * Retrieve player by ID
+     */
+    async getPlayerById(requestParameters: GetPlayerByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Player> {
+        const response = await this.getPlayerByIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve a list of players that match the specified filter criteria. Developers can use this method to retrieve players by name, category, status, or other properties. Example: Retrieve players from game Call of Duty.
+     * Retrieve players
+     */
+    async getPlayersRaw(requestParameters: GetPlayersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Player>>> {
+        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getPlayers.');
+        }
+
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getPlayers.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.projectId !== undefined) {
+            queryParameters['project_id'] = requestParameters.projectId;
+        }
+
+        if (requestParameters.sort !== undefined) {
+            queryParameters['sort'] = requestParameters.sort;
+        }
+
+        if (requestParameters.order !== undefined) {
+            queryParameters['order'] = requestParameters.order;
+        }
+
+        if (requestParameters.searchText !== undefined) {
+            queryParameters['search_text'] = requestParameters.searchText;
+        }
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/v1/player`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PlayerFromJSON));
+    }
+
+    /**
+     * Retrieve a list of players that match the specified filter criteria. Developers can use this method to retrieve players by name, category, status, or other properties. Example: Retrieve players from game Call of Duty.
+     * Retrieve players
+     */
+    async getPlayers(requestParameters: GetPlayersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Player>> {
+        const response = await this.getPlayersRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Retrieve player asset by ID. Player asset represents a single asset that a player owns. It has amount field that represents how many of this asset player owns.
@@ -197,242 +388,12 @@ export class PlayerApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create new player for game/project. Example: Create new player Jack in game Call of Duty.
-     * Create new player
-     */
-    async playerControllerCreatePlayerRaw(requestParameters: PlayerControllerCreatePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Player>> {
-        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling playerControllerCreatePlayer.');
-        }
-
-        if (requestParameters.createPlayerDto === null || requestParameters.createPlayerDto === undefined) {
-            throw new runtime.RequiredError('createPlayerDto','Required parameter requestParameters.createPlayerDto was null or undefined when calling playerControllerCreatePlayer.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
-            headerParameters['Authorization'] = String(requestParameters.authorization);
-        }
-
-        const response = await this.request({
-            path: `/v1/player`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: CreatePlayerDtoToJSON(requestParameters.createPlayerDto),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => PlayerFromJSON(jsonValue));
-    }
-
-    /**
-     * Create new player for game/project. Example: Create new player Jack in game Call of Duty.
-     * Create new player
-     */
-    async playerControllerCreatePlayer(requestParameters: PlayerControllerCreatePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Player> {
-        const response = await this.playerControllerCreatePlayerRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * This API method allows developers to delete a Player by providing the ID of the Player. Once deleted, the Player and all associated assets will be removed from the system.
-     * Delete a Player
-     */
-    async playerControllerDeletePlayerRaw(requestParameters: PlayerControllerDeletePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling playerControllerDeletePlayer.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
-            headerParameters['Authorization'] = String(requestParameters.authorization);
-        }
-
-        const response = await this.request({
-            path: `/v1/player`,
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * This API method allows developers to delete a Player by providing the ID of the Player. Once deleted, the Player and all associated assets will be removed from the system.
-     * Delete a Player
-     */
-    async playerControllerDeletePlayer(requestParameters: PlayerControllerDeletePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.playerControllerDeletePlayerRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Retrieve a list of players that match the specified filter criteria. Developers can use this method to retrieve players by name, category, status, or other properties. Example: Retrieve players from game Call of Duty.
-     * Retrieve players
-     */
-    async playerControllerGetPlayersRaw(requestParameters: PlayerControllerGetPlayersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Player>>> {
-        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling playerControllerGetPlayers.');
-        }
-
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling playerControllerGetPlayers.');
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters.projectId !== undefined) {
-            queryParameters['project_id'] = requestParameters.projectId;
-        }
-
-        if (requestParameters.sort !== undefined) {
-            queryParameters['sort'] = requestParameters.sort;
-        }
-
-        if (requestParameters.order !== undefined) {
-            queryParameters['order'] = requestParameters.order;
-        }
-
-        if (requestParameters.searchText !== undefined) {
-            queryParameters['search_text'] = requestParameters.searchText;
-        }
-
-        if (requestParameters.limit !== undefined) {
-            queryParameters['limit'] = requestParameters.limit;
-        }
-
-        if (requestParameters.page !== undefined) {
-            queryParameters['page'] = requestParameters.page;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
-            headerParameters['Authorization'] = String(requestParameters.authorization);
-        }
-
-        const response = await this.request({
-            path: `/v1/player`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PlayerFromJSON));
-    }
-
-    /**
-     * Retrieve a list of players that match the specified filter criteria. Developers can use this method to retrieve players by name, category, status, or other properties. Example: Retrieve players from game Call of Duty.
-     * Retrieve players
-     */
-    async playerControllerGetPlayers(requestParameters: PlayerControllerGetPlayersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Player>> {
-        const response = await this.playerControllerGetPlayersRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Retrieves a specific player by ID associated with game/project. Example: retrieve player Jack from game Call of Duty.
-     * Retrieve player by ID
-     */
-    async playerControllerPlayerByIdRaw(requestParameters: PlayerControllerPlayerByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Player>> {
-        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling playerControllerPlayerById.');
-        }
-
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling playerControllerPlayerById.');
-        }
-
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling playerControllerPlayerById.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
-            headerParameters['Authorization'] = String(requestParameters.authorization);
-        }
-
-        const response = await this.request({
-            path: `/v1/player/{project_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => PlayerFromJSON(jsonValue));
-    }
-
-    /**
-     * Retrieves a specific player by ID associated with game/project. Example: retrieve player Jack from game Call of Duty.
-     * Retrieve player by ID
-     */
-    async playerControllerPlayerById(requestParameters: PlayerControllerPlayerByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Player> {
-        const response = await this.playerControllerPlayerByIdRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Count players in game. Example: count players in game Call of Duty.
-     * Count players
-     */
-    async playerControllerPlayersCountByGameIdRaw(requestParameters: PlayerControllerPlayersCountByGameIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
-        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling playerControllerPlayersCountByGameId.');
-        }
-
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling playerControllerPlayersCountByGameId.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
-            headerParameters['Authorization'] = String(requestParameters.authorization);
-        }
-
-        const response = await this.request({
-            path: `/v1/player/count/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<number>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Count players in game. Example: count players in game Call of Duty.
-     * Count players
-     */
-    async playerControllerPlayersCountByGameId(requestParameters: PlayerControllerPlayersCountByGameIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
-        const response = await this.playerControllerPlayersCountByGameIdRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * This API method allows developers to update an existing Player by providing the ID of the Player and the updated properties and associated assets.
      * Update an existing Player
      */
-    async playerControllerUpdatePlayerRaw(requestParameters: PlayerControllerUpdatePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Player>> {
+    async updatePlayerRaw(requestParameters: UpdatePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Player>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling playerControllerUpdatePlayer.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling updatePlayer.');
         }
 
         const queryParameters: any = {};
@@ -457,8 +418,8 @@ export class PlayerApi extends runtime.BaseAPI {
      * This API method allows developers to update an existing Player by providing the ID of the Player and the updated properties and associated assets.
      * Update an existing Player
      */
-    async playerControllerUpdatePlayer(requestParameters: PlayerControllerUpdatePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Player> {
-        const response = await this.playerControllerUpdatePlayerRaw(requestParameters, initOverrides);
+    async updatePlayer(requestParameters: UpdatePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Player> {
+        const response = await this.updatePlayerRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
