@@ -36,5 +36,5 @@ fi
 
 # Update the version number and publish the updated package to npm
 npm version patch # This will automatically commit the changes and create a new version tag
-npm publish --access public
+npm publish --access public --otp=$NPM_OTP_TOKEN
 git push --follow-tags # Push the changes and the new tag to the remote repository
