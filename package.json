@@ -1,0 +1,21 @@
+{
+  "name": "@l3vels/sdk",
+  "version": "0.0.7",
+  "description": "Javascript sdk for L3vels",
+  "author": "Giga Chkhikvadze",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/l3vels/l3-sdk-js.git"
+  },
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "module": "./dist/esm/index.js",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc && tsc -p tsconfig.esm.json",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^4.0"
+  }
+}

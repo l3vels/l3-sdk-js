@@ -1,0 +1,17 @@
+{
+    "generatorName": "typescript-fetch",
+    "additionalProperties": {
+      "snapshot": false,
+      "withInterfaces": false,
+      "withSeparateModelsAndApi": true,
+      "modelPropertyNaming": "camelCase",
+      "supportsES6": true,
+      "useSingleRequestParameter": true,
+      "enumPropertyNaming": "UPPERCASE",
+      "fetchApi": "isomorphic-fetch",
+      "prefixParameterInterfaces": "I",
+      "fileNaming": "camelCase",
+      "apiPackage": "api",
+      "modelPackage": "model"
+    }
+}
