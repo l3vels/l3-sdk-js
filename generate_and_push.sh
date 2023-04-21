@@ -23,20 +23,22 @@ npx @openapitools/openapi-generator-cli generate -i "$OPEN_API_URL" -c "$CONFIG_
 git config user.name "$USERNAME"
 git config user.email "$USER_EMAIL"
 
+echo git diff-index --quiet HEAD --;
 # Check if changes exist
 if git diff-index --quiet HEAD --; then
     echo "No changes detected."
 else
+    echo "There are changes detected."
     # Add, commit, and push the changes
-    git add .
-    git commit -m "$COMMIT_NAME"
-    git pull --rebase origin main
-    git push origin HEAD
+    # git add .
+    # git commit -m "$COMMIT_NAME"
+    # git pull --rebase origin main
+    # git push origin HEAD
 
-    # Update the version number and publish the updated package to npm
-    npm version patch # This will automatically commit the changes and create a new version tag
-    npm publish --access public --otp=$NPM_OTP_TOKEN
-    git push --follow-tags # Push the changes and the new tag to the remote repository
+    # # Update the version number and publish the updated package to npm
+    # npm version patch # This will automatically commit the changes and create a new version tag
+    # npm publish --access public --otp=$NPM_OTP_TOKEN
+    # git push --follow-tags # Push the changes and the new tag to the remote repository
 fi
 
 
