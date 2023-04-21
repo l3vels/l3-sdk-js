@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OPEN_API_URL="${$OPEN_API_URL:-"https://api-dev.l3vels.xyz/docs-json"}"
+OPEN_API_URL="${OPEN_API_URL:-"https://api-dev.l3vels.xyz/docs-json"}"
 PACKAGE_VERSION=$PACKAGE_VERSION
 COMMIT_NAME="${COMMIT_NAME:-"Update generated code"}"
 
