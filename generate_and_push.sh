@@ -12,7 +12,7 @@ OUTPUT_DIR="$(pwd)"
 
 
 # Generate the client or server code
-npx @openapitools/openapi-generator-cli generate -i "$OPEN_API_URL" -o "$OUTPUT_DIR"
+npx @openapitools/openapi-generator-cli generate -i "$OPEN_API_URL" -c openapitools.json -o "$OUTPUT_DIR"
 
 # Set Git user
 git config user.name "$USERNAME"
