@@ -1,6 +1,6 @@
 {
-  "name": "@l3vels/sdk-js",
-  "version": "0.0.1",
+  "name": "@l3vels/sdk",
+  "version": "0.0.2",
   "description": "Javascript sdk for L3vels",
   "author": "Giga Chkhikvadze",
   "repository": {
@@ -17,8 +17,5 @@
   },
   "devDependencies": {
     "typescript": "^4.0"
-  },
-  "publishConfig": {
-    "registry": "https://github.com/l3vels/l3-sdk-js.git"
   }
 }
