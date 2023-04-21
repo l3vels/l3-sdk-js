@@ -8,16 +8,11 @@ USERNAME="${USERNAME:-"Giga Chkhikvadze"}"
 USER_EMAIL="${USER_EMAIL:-"giga.chkhikvadze@gmail.com"}"
 
 # Set the OpenAPI Generator options
-CONFIG_FILE="$(pwd)/typescript-config.json"
 OUTPUT_DIR="$(pwd)"
 
-env | grep OPEN_API_URL
-env | grep PACKAGE_VERSION
-env | grep USERNAME
-env | grep COMMIT_NAME
 
 # Generate the client or server code
-npx @openapitools/openapi-generator-cli generate -i "$OPEN_API_URL" -c "$CONFIG_FILE" -o "$OUTPUT_DIR"
+npx @openapitools/openapi-generator-cli generate -i "$OPEN_API_URL" -o "$OUTPUT_DIR"
 
 # Set Git user
 git config user.name "$USERNAME"
