@@ -1,4 +1,4 @@
-## l3-sdk-js@1.0.0
+## l3-sdk-js
 
 This generator creates TypeScript/JavaScript client that utilizes [Fetch API](https://fetch.spec.whatwg.org/). The generated Node module can be used in the following environments:
 
@@ -36,7 +36,7 @@ navigate to the folder of your consuming project and run one of the following co
 _published:_
 
 ```
-npm install l3-sdk-js@1.0.0 --save
+npm install @l3vels/sdk --save
 ```
 
 _unPublished (not recommended):_
