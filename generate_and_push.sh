@@ -25,7 +25,7 @@ git config user.email "$USER_EMAIL"
 
 echo git diff-index --quiet HEAD --;
 # Check if changes exist
-if git diff-index --quiet HEAD --; then
+if [[ -z $(git status --porcelain) ]]; then
     echo "No changes detected."
 else
     echo "There are changes detected."
