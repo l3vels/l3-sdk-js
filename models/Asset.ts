@@ -111,18 +111,18 @@ export interface Asset {
     mainMedia: string;
     /**
      * The unique identifier of the account that the Collection belongs to.
-     * @type {number}
-     * @memberof Asset
-     */
-    accountId: number;
-    /**
-     * The unique identifier of the project that the asset is associated with. This allows developers to organize their assets by project and helps with tracking and reporting.
      * @type {string}
      * @memberof Asset
      */
-    projectId: string;
+    accountId: string;
     /**
-     * The unique identifier of the collection that the asset is associated with. This allows developers to organize their collections by project and helps with tracking and reporting.
+     * The unique identifier of the game that the asset is associated with. This allows developers to organize their assets by game and helps with tracking and reporting.
+     * @type {string}
+     * @memberof Asset
+     */
+    gameId: string;
+    /**
+     * The unique identifier of the collection that the asset is associated with. This allows developers to organize their collections by game and helps with tracking and reporting.
      * @type {string}
      * @memberof Asset
      */
@@ -141,16 +141,16 @@ export interface Asset {
     modifiedOn: Date;
     /**
      * The Id of the user who created the collection.
-     * @type {number}
+     * @type {string}
      * @memberof Asset
      */
-    createdBy: number;
+    createdBy: string;
     /**
      * The Id of the user who last modified the collection.
-     * @type {number}
+     * @type {string}
      * @memberof Asset
      */
-    modifiedBy: number;
+    modifiedBy: string;
 }
 
 /**
@@ -174,7 +174,7 @@ export function instanceOfAsset(value: object): boolean {
     isInstance = isInstance && "medias" in value;
     isInstance = isInstance && "mainMedia" in value;
     isInstance = isInstance && "accountId" in value;
-    isInstance = isInstance && "projectId" in value;
+    isInstance = isInstance && "gameId" in value;
     isInstance = isInstance && "collectionId" in value;
     isInstance = isInstance && "createdOn" in value;
     isInstance = isInstance && "modifiedOn" in value;
@@ -210,7 +210,7 @@ export function AssetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ass
         'medias': json['medias'],
         'mainMedia': json['main_media'],
         'accountId': json['account_id'],
-        'projectId': json['project_id'],
+        'gameId': json['game_id'],
         'collectionId': json['collection_id'],
         'createdOn': (new Date(json['created_on'])),
         'modifiedOn': (new Date(json['modified_on'])),
@@ -244,7 +244,7 @@ export function AssetToJSON(value?: Asset | null): any {
         'medias': value.medias,
         'main_media': value.mainMedia,
         'account_id': value.accountId,
-        'project_id': value.projectId,
+        'game_id': value.gameId,
         'collection_id': value.collectionId,
         'created_on': (value.createdOn.toISOString()),
         'modified_on': (value.modifiedOn.toISOString()),

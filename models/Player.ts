@@ -69,16 +69,16 @@ export interface Player {
     lastSeen: Date;
     /**
      * The unique identifier of the account that the Player belongs to.
-     * @type {number}
-     * @memberof Player
-     */
-    accountId: number;
-    /**
-     * The unique identifier of the project that the Player is associated with. This allows developers to organize their players by project and helps with tracking and reporting. Example: Player Jack is associated with project Fortnite.
      * @type {string}
      * @memberof Player
      */
-    projectId: string;
+    accountId: string;
+    /**
+     * The unique identifier of the game that the Player is associated with. This allows developers to organize their players by game and helps with tracking and reporting. Example: Player Jack is associated with game Fortnite.
+     * @type {string}
+     * @memberof Player
+     */
+    gameId: string;
     /**
      * The date when the player was created.
      * @type {Date}
@@ -93,16 +93,16 @@ export interface Player {
     modifiedOn: Date;
     /**
      * The Id of the user who created the player.
-     * @type {number}
+     * @type {string}
      * @memberof Player
      */
-    createdBy: number;
+    createdBy: string;
     /**
      * The Id of the user who last modified the player.
-     * @type {number}
+     * @type {string}
      * @memberof Player
      */
-    modifiedBy: number;
+    modifiedBy: string;
     /**
      * Boolean value indicating whether the player has wallet or not
      * @type {boolean}
@@ -125,7 +125,7 @@ export function instanceOfPlayer(value: object): boolean {
     isInstance = isInstance && "customProps" in value;
     isInstance = isInstance && "lastSeen" in value;
     isInstance = isInstance && "accountId" in value;
-    isInstance = isInstance && "projectId" in value;
+    isInstance = isInstance && "gameId" in value;
     isInstance = isInstance && "createdOn" in value;
     isInstance = isInstance && "modifiedOn" in value;
     isInstance = isInstance && "createdBy" in value;
@@ -154,7 +154,7 @@ export function PlayerFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pl
         'customProps': json['custom_props'],
         'lastSeen': (new Date(json['last_seen'])),
         'accountId': json['account_id'],
-        'projectId': json['project_id'],
+        'gameId': json['game_id'],
         'createdOn': (new Date(json['created_on'])),
         'modifiedOn': (new Date(json['modified_on'])),
         'createdBy': json['created_by'],
@@ -181,7 +181,7 @@ export function PlayerToJSON(value?: Player | null): any {
         'custom_props': value.customProps,
         'last_seen': (value.lastSeen.toISOString()),
         'account_id': value.accountId,
-        'project_id': value.projectId,
+        'game_id': value.gameId,
         'created_on': (value.createdOn.toISOString()),
         'modified_on': (value.modifiedOn.toISOString()),
         'created_by': value.createdBy,

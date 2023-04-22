@@ -15,11 +15,11 @@
 
 import * as runtime from '../runtime';
 import type {
-  Project,
+  Game,
 } from '../models';
 import {
-    ProjectFromJSON,
-    ProjectToJSON,
+    GameFromJSON,
+    GameToJSON,
 } from '../models';
 
 export interface GetGameByIdRequest {
@@ -33,10 +33,10 @@ export interface GetGameByIdRequest {
 export class GameApi extends runtime.BaseAPI {
 
     /**
-     * Get game/project by ID created on the platform.
+     * Get Game by ID created on the platform.
      * Retrieve Game
      */
-    async getGameByIdRaw(requestParameters: GetGameByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Project>> {
+    async getGameByIdRaw(requestParameters: GetGameByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Game>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
             throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getGameById.');
         }
@@ -60,14 +60,14 @@ export class GameApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ProjectFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GameFromJSON(jsonValue));
     }
 
     /**
-     * Get game/project by ID created on the platform.
+     * Get Game by ID created on the platform.
      * Retrieve Game
      */
-    async getGameById(requestParameters: GetGameByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Project> {
+    async getGameById(requestParameters: GetGameByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Game> {
         const response = await this.getGameByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }

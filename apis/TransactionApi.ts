@@ -22,19 +22,19 @@ import {
     TransactionToJSON,
 } from '../models';
 
-export interface TransactionControllerTransactionByIdRequest {
+export interface GetTransactionByIdRequest {
     authorization: string;
     id: string;
-    projectId: string;
+    gameId: string;
 }
 
-export interface TransactionControllerTransactionsRequest {
+export interface GetTransactionsRequest {
     authorization: string;
-    projectId: string;
+    gameId: string;
     collectionId?: string;
     playerId?: string;
     sort?: string;
-    order?: TransactionControllerTransactionsOrderEnum;
+    order?: GetTransactionsOrderEnum;
     searchText?: string;
     limit?: number;
     page?: number;
@@ -53,17 +53,17 @@ export class TransactionApi extends runtime.BaseAPI {
      * Retrieve transaction by ID
      * Retrieve Transaction by ID
      */
-    async transactionControllerTransactionByIdRaw(requestParameters: TransactionControllerTransactionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Transaction>> {
+    async getTransactionByIdRaw(requestParameters: GetTransactionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Transaction>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling transactionControllerTransactionById.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getTransactionById.');
         }
 
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling transactionControllerTransactionById.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getTransactionById.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling transactionControllerTransactionById.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling getTransactionById.');
         }
 
         const queryParameters: any = {};
@@ -75,7 +75,7 @@ export class TransactionApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/transaction/{project_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            path: `/v1/transaction/{game_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"game_id"}}`, encodeURIComponent(String(requestParameters.gameId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -88,8 +88,8 @@ export class TransactionApi extends runtime.BaseAPI {
      * Retrieve transaction by ID
      * Retrieve Transaction by ID
      */
-    async transactionControllerTransactionById(requestParameters: TransactionControllerTransactionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Transaction> {
-        const response = await this.transactionControllerTransactionByIdRaw(requestParameters, initOverrides);
+    async getTransactionById(requestParameters: GetTransactionByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Transaction> {
+        const response = await this.getTransactionByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -97,19 +97,19 @@ export class TransactionApi extends runtime.BaseAPI {
      * Retrieve all transactions.
      * Retrieve transactions
      */
-    async transactionControllerTransactionsRaw(requestParameters: TransactionControllerTransactionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Transaction>> {
+    async getTransactionsRaw(requestParameters: GetTransactionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Transaction>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling transactionControllerTransactions.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getTransactions.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling transactionControllerTransactions.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling getTransactions.');
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.projectId !== undefined) {
-            queryParameters['project_id'] = requestParameters.projectId;
+        if (requestParameters.gameId !== undefined) {
+            queryParameters['game_id'] = requestParameters.gameId;
         }
 
         if (requestParameters.collectionId !== undefined) {
@@ -160,8 +160,8 @@ export class TransactionApi extends runtime.BaseAPI {
      * Retrieve all transactions.
      * Retrieve transactions
      */
-    async transactionControllerTransactions(requestParameters: TransactionControllerTransactionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Transaction> {
-        const response = await this.transactionControllerTransactionsRaw(requestParameters, initOverrides);
+    async getTransactions(requestParameters: GetTransactionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Transaction> {
+        const response = await this.getTransactionsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -201,8 +201,8 @@ export class TransactionApi extends runtime.BaseAPI {
 /**
  * @export
  */
-export const TransactionControllerTransactionsOrderEnum = {
+export const GetTransactionsOrderEnum = {
     ASC: 'ASC',
     DESC: 'DESC'
 } as const;
-export type TransactionControllerTransactionsOrderEnum = typeof TransactionControllerTransactionsOrderEnum[keyof typeof TransactionControllerTransactionsOrderEnum];
+export type GetTransactionsOrderEnum = typeof GetTransactionsOrderEnum[keyof typeof GetTransactionsOrderEnum];

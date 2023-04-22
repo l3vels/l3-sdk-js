@@ -15,44 +15,44 @@
 
 import * as runtime from '../runtime';
 import type {
-  MintBatchDto,
-  MintDto,
+  MintBatchInput,
+  MintInput,
 } from '../models';
 import {
-    MintBatchDtoFromJSON,
-    MintBatchDtoToJSON,
-    MintDtoFromJSON,
-    MintDtoToJSON,
+    MintBatchInputFromJSON,
+    MintBatchInputToJSON,
+    MintInputFromJSON,
+    MintInputToJSON,
 } from '../models';
 
-export interface MintControllerAirdropRequest {
+export interface AirdropAssetToPlayerRequest {
     authorization: string;
-    mintDto: MintDto;
+    mintInput: MintInput;
 }
 
-export interface MintControllerAwardRequest {
+export interface AwardAssetToPlayerRequest {
     authorization: string;
-    mintDto: MintDto;
+    mintInput: MintInput;
 }
 
-export interface MintControllerMintRequest {
+export interface BatchMintAssetByPlayerRequest {
     authorization: string;
-    mintDto: MintDto;
+    mintBatchInput: MintBatchInput;
 }
 
-export interface MintControllerMintBatchRequest {
+export interface MintAssetRequest {
     authorization: string;
-    mintBatchDto: MintBatchDto;
+    mintInput: MintInput;
 }
 
-export interface MintControllerPlayerMintRequest {
+export interface MintAssetByPlayerRequest {
     authorization: string;
-    mintDto: MintDto;
+    mintInput: MintInput;
 }
 
-export interface MintControllerPlayerMintBatchRequest {
+export interface MintBatchAssetRequest {
     authorization: string;
-    mintBatchDto: MintBatchDto;
+    mintBatchInput: MintBatchInput;
 }
 
 /**
@@ -64,13 +64,13 @@ export class MintApi extends runtime.BaseAPI {
      * Airdrop asset to player
      * Airdrop asset to player
      */
-    async mintControllerAirdropRaw(requestParameters: MintControllerAirdropRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async airdropAssetToPlayerRaw(requestParameters: AirdropAssetToPlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling mintControllerAirdrop.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling airdropAssetToPlayer.');
         }
 
-        if (requestParameters.mintDto === null || requestParameters.mintDto === undefined) {
-            throw new runtime.RequiredError('mintDto','Required parameter requestParameters.mintDto was null or undefined when calling mintControllerAirdrop.');
+        if (requestParameters.mintInput === null || requestParameters.mintInput === undefined) {
+            throw new runtime.RequiredError('mintInput','Required parameter requestParameters.mintInput was null or undefined when calling airdropAssetToPlayer.');
         }
 
         const queryParameters: any = {};
@@ -88,7 +88,7 @@ export class MintApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MintDtoToJSON(requestParameters.mintDto),
+            body: MintInputToJSON(requestParameters.mintInput),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -98,21 +98,21 @@ export class MintApi extends runtime.BaseAPI {
      * Airdrop asset to player
      * Airdrop asset to player
      */
-    async mintControllerAirdrop(requestParameters: MintControllerAirdropRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.mintControllerAirdropRaw(requestParameters, initOverrides);
+    async airdropAssetToPlayer(requestParameters: AirdropAssetToPlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.airdropAssetToPlayerRaw(requestParameters, initOverrides);
     }
 
     /**
      * Award asset to player
      * Award asset to player
      */
-    async mintControllerAwardRaw(requestParameters: MintControllerAwardRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async awardAssetToPlayerRaw(requestParameters: AwardAssetToPlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling mintControllerAward.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling awardAssetToPlayer.');
         }
 
-        if (requestParameters.mintDto === null || requestParameters.mintDto === undefined) {
-            throw new runtime.RequiredError('mintDto','Required parameter requestParameters.mintDto was null or undefined when calling mintControllerAward.');
+        if (requestParameters.mintInput === null || requestParameters.mintInput === undefined) {
+            throw new runtime.RequiredError('mintInput','Required parameter requestParameters.mintInput was null or undefined when calling awardAssetToPlayer.');
         }
 
         const queryParameters: any = {};
@@ -130,7 +130,7 @@ export class MintApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MintDtoToJSON(requestParameters.mintDto),
+            body: MintInputToJSON(requestParameters.mintInput),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -140,147 +140,21 @@ export class MintApi extends runtime.BaseAPI {
      * Award asset to player
      * Award asset to player
      */
-    async mintControllerAward(requestParameters: MintControllerAwardRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.mintControllerAwardRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Mint an asset by admin to player
-     * Mint asset
-     */
-    async mintControllerMintRaw(requestParameters: MintControllerMintRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling mintControllerMint.');
-        }
-
-        if (requestParameters.mintDto === null || requestParameters.mintDto === undefined) {
-            throw new runtime.RequiredError('mintDto','Required parameter requestParameters.mintDto was null or undefined when calling mintControllerMint.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
-            headerParameters['Authorization'] = String(requestParameters.authorization);
-        }
-
-        const response = await this.request({
-            path: `/v1/mint`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: MintDtoToJSON(requestParameters.mintDto),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Mint an asset by admin to player
-     * Mint asset
-     */
-    async mintControllerMint(requestParameters: MintControllerMintRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.mintControllerMintRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Batch mint assets by admin to player
-     * Batch mint assets
-     */
-    async mintControllerMintBatchRaw(requestParameters: MintControllerMintBatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling mintControllerMintBatch.');
-        }
-
-        if (requestParameters.mintBatchDto === null || requestParameters.mintBatchDto === undefined) {
-            throw new runtime.RequiredError('mintBatchDto','Required parameter requestParameters.mintBatchDto was null or undefined when calling mintControllerMintBatch.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
-            headerParameters['Authorization'] = String(requestParameters.authorization);
-        }
-
-        const response = await this.request({
-            path: `/v1/mint/batch`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: MintBatchDtoToJSON(requestParameters.mintBatchDto),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Batch mint assets by admin to player
-     * Batch mint assets
-     */
-    async mintControllerMintBatch(requestParameters: MintControllerMintBatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.mintControllerMintBatchRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Mint asset by player. Player must have enough balance to mint.
-     * Mint asset by player
-     */
-    async mintControllerPlayerMintRaw(requestParameters: MintControllerPlayerMintRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling mintControllerPlayerMint.');
-        }
-
-        if (requestParameters.mintDto === null || requestParameters.mintDto === undefined) {
-            throw new runtime.RequiredError('mintDto','Required parameter requestParameters.mintDto was null or undefined when calling mintControllerPlayerMint.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
-            headerParameters['Authorization'] = String(requestParameters.authorization);
-        }
-
-        const response = await this.request({
-            path: `/v1/mint/player`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: MintDtoToJSON(requestParameters.mintDto),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Mint asset by player. Player must have enough balance to mint.
-     * Mint asset by player
-     */
-    async mintControllerPlayerMint(requestParameters: MintControllerPlayerMintRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.mintControllerPlayerMintRaw(requestParameters, initOverrides);
+    async awardAssetToPlayer(requestParameters: AwardAssetToPlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.awardAssetToPlayerRaw(requestParameters, initOverrides);
     }
 
     /**
      * Batch mint assets by player. Player must have enough balance to mint.
      * Batch mint assets by player
      */
-    async mintControllerPlayerMintBatchRaw(requestParameters: MintControllerPlayerMintBatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async batchMintAssetByPlayerRaw(requestParameters: BatchMintAssetByPlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling mintControllerPlayerMintBatch.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling batchMintAssetByPlayer.');
         }
 
-        if (requestParameters.mintBatchDto === null || requestParameters.mintBatchDto === undefined) {
-            throw new runtime.RequiredError('mintBatchDto','Required parameter requestParameters.mintBatchDto was null or undefined when calling mintControllerPlayerMintBatch.');
+        if (requestParameters.mintBatchInput === null || requestParameters.mintBatchInput === undefined) {
+            throw new runtime.RequiredError('mintBatchInput','Required parameter requestParameters.mintBatchInput was null or undefined when calling batchMintAssetByPlayer.');
         }
 
         const queryParameters: any = {};
@@ -298,7 +172,7 @@ export class MintApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MintBatchDtoToJSON(requestParameters.mintBatchDto),
+            body: MintBatchInputToJSON(requestParameters.mintBatchInput),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -308,8 +182,134 @@ export class MintApi extends runtime.BaseAPI {
      * Batch mint assets by player. Player must have enough balance to mint.
      * Batch mint assets by player
      */
-    async mintControllerPlayerMintBatch(requestParameters: MintControllerPlayerMintBatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.mintControllerPlayerMintBatchRaw(requestParameters, initOverrides);
+    async batchMintAssetByPlayer(requestParameters: BatchMintAssetByPlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.batchMintAssetByPlayerRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Mint an asset by admin to player
+     * Mint asset
+     */
+    async mintAssetRaw(requestParameters: MintAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling mintAsset.');
+        }
+
+        if (requestParameters.mintInput === null || requestParameters.mintInput === undefined) {
+            throw new runtime.RequiredError('mintInput','Required parameter requestParameters.mintInput was null or undefined when calling mintAsset.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/v1/mint`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MintInputToJSON(requestParameters.mintInput),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Mint an asset by admin to player
+     * Mint asset
+     */
+    async mintAsset(requestParameters: MintAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.mintAssetRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Mint asset by player. Player must have enough balance to mint.
+     * Mint asset by player
+     */
+    async mintAssetByPlayerRaw(requestParameters: MintAssetByPlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling mintAssetByPlayer.');
+        }
+
+        if (requestParameters.mintInput === null || requestParameters.mintInput === undefined) {
+            throw new runtime.RequiredError('mintInput','Required parameter requestParameters.mintInput was null or undefined when calling mintAssetByPlayer.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/v1/mint/player`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MintInputToJSON(requestParameters.mintInput),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Mint asset by player. Player must have enough balance to mint.
+     * Mint asset by player
+     */
+    async mintAssetByPlayer(requestParameters: MintAssetByPlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.mintAssetByPlayerRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Batch mint assets by admin to player
+     * Batch mint assets
+     */
+    async mintBatchAssetRaw(requestParameters: MintBatchAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling mintBatchAsset.');
+        }
+
+        if (requestParameters.mintBatchInput === null || requestParameters.mintBatchInput === undefined) {
+            throw new runtime.RequiredError('mintBatchInput','Required parameter requestParameters.mintBatchInput was null or undefined when calling mintBatchAsset.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/v1/mint/batch`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MintBatchInputToJSON(requestParameters.mintBatchInput),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Batch mint assets by admin to player
+     * Batch mint assets
+     */
+    async mintBatchAsset(requestParameters: MintBatchAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.mintBatchAssetRaw(requestParameters, initOverrides);
     }
 
 }

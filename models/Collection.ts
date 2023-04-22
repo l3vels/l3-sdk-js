@@ -111,16 +111,16 @@ export interface Collection {
     status: string;
     /**
      * The unique identifier of the account that the Collection belongs to.
-     * @type {number}
-     * @memberof Collection
-     */
-    accountId: number;
-    /**
-     * The unique identifier of the project that the collection is associated with. This allows developers to organize their collections by project and helps with tracking and reporting.
      * @type {string}
      * @memberof Collection
      */
-    projectId: string;
+    accountId: string;
+    /**
+     * The unique identifier of the game that the collection is associated with. This allows developers to organize their collections by game and helps with tracking and reporting.
+     * @type {string}
+     * @memberof Collection
+     */
+    gameId: string;
     /**
      * The date when the collection was created.
      * @type {Date}
@@ -135,16 +135,16 @@ export interface Collection {
     modifiedOn: Date;
     /**
      * The Id of the user who created the collection.
-     * @type {number}
+     * @type {string}
      * @memberof Collection
      */
-    createdBy: number;
+    createdBy: string;
     /**
      * The Id of the user who last modified the collection.
-     * @type {number}
+     * @type {string}
      * @memberof Collection
      */
-    modifiedBy: number;
+    modifiedBy: string;
 }
 
 /**
@@ -168,7 +168,7 @@ export function instanceOfCollection(value: object): boolean {
     isInstance = isInstance && "categories" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "accountId" in value;
-    isInstance = isInstance && "projectId" in value;
+    isInstance = isInstance && "gameId" in value;
     isInstance = isInstance && "createdOn" in value;
     isInstance = isInstance && "modifiedOn" in value;
     isInstance = isInstance && "createdBy" in value;
@@ -203,7 +203,7 @@ export function CollectionFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'categories': json['categories'],
         'status': json['status'],
         'accountId': json['account_id'],
-        'projectId': json['project_id'],
+        'gameId': json['game_id'],
         'createdOn': (new Date(json['created_on'])),
         'modifiedOn': (new Date(json['modified_on'])),
         'createdBy': json['created_by'],
@@ -236,7 +236,7 @@ export function CollectionToJSON(value?: Collection | null): any {
         'categories': value.categories,
         'status': value.status,
         'account_id': value.accountId,
-        'project_id': value.projectId,
+        'game_id': value.gameId,
         'created_on': (value.createdOn.toISOString()),
         'modified_on': (value.modifiedOn.toISOString()),
         'created_by': value.createdBy,

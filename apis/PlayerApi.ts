@@ -15,13 +15,13 @@
 
 import * as runtime from '../runtime';
 import type {
-  CreatePlayerDto,
+  CreatePlayerInput,
   Player,
   PlayerAsset,
 } from '../models';
 import {
-    CreatePlayerDtoFromJSON,
-    CreatePlayerDtoToJSON,
+    CreatePlayerInputFromJSON,
+    CreatePlayerInputToJSON,
     PlayerFromJSON,
     PlayerToJSON,
     PlayerAssetFromJSON,
@@ -30,23 +30,29 @@ import {
 
 export interface CountPlayersByGameIdRequest {
     authorization: string;
-    projectId: string;
+    gameId: string;
 }
 
 export interface CreatePlayerRequest {
     authorization: string;
-    createPlayerDto: CreatePlayerDto;
+    createPlayerInput: CreatePlayerInput;
+}
+
+export interface GetPlayerAssetByIdRequest {
+    authorization: string;
+    id: string;
+    gameId: string;
 }
 
 export interface GetPlayerByIdRequest {
     authorization: string;
     id: string;
-    projectId: string;
+    gameId: string;
 }
 
 export interface GetPlayersRequest {
     authorization: string;
-    projectId: string;
+    gameId: string;
     sort?: string;
     order?: string;
     searchText?: string;
@@ -54,15 +60,9 @@ export interface GetPlayersRequest {
     page?: number;
 }
 
-export interface PlayerAssetControllerPlayerAssetByIdRequest {
+export interface PlayerAssetsRequest {
     authorization: string;
-    id: string;
-    projectId: string;
-}
-
-export interface PlayerAssetControllerPlayerAssetsRequest {
-    authorization: string;
-    projectId: string;
+    gameId: string;
     assetId?: string;
     playerId?: string;
     sort?: string;
@@ -89,8 +89,8 @@ export class PlayerApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling countPlayersByGameId.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling countPlayersByGameId.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling countPlayersByGameId.');
         }
 
         const queryParameters: any = {};
@@ -102,7 +102,7 @@ export class PlayerApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/player/count/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            path: `/v1/player/count/{game_id}`.replace(`{${"game_id"}}`, encodeURIComponent(String(requestParameters.gameId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -125,7 +125,7 @@ export class PlayerApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create new player for game/project. Example: Create new player Jack in game Call of Duty.
+     * Create new player for Game. Example: Create new player Jack in game Call of Duty.
      * Create new player
      */
     async createPlayerRaw(requestParameters: CreatePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Player>> {
@@ -133,8 +133,8 @@ export class PlayerApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling createPlayer.');
         }
 
-        if (requestParameters.createPlayerDto === null || requestParameters.createPlayerDto === undefined) {
-            throw new runtime.RequiredError('createPlayerDto','Required parameter requestParameters.createPlayerDto was null or undefined when calling createPlayer.');
+        if (requestParameters.createPlayerInput === null || requestParameters.createPlayerInput === undefined) {
+            throw new runtime.RequiredError('createPlayerInput','Required parameter requestParameters.createPlayerInput was null or undefined when calling createPlayer.');
         }
 
         const queryParameters: any = {};
@@ -152,14 +152,14 @@ export class PlayerApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreatePlayerDtoToJSON(requestParameters.createPlayerDto),
+            body: CreatePlayerInputToJSON(requestParameters.createPlayerInput),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PlayerFromJSON(jsonValue));
     }
 
     /**
-     * Create new player for game/project. Example: Create new player Jack in game Call of Duty.
+     * Create new player for Game. Example: Create new player Jack in game Call of Duty.
      * Create new player
      */
     async createPlayer(requestParameters: CreatePlayerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Player> {
@@ -168,20 +168,20 @@ export class PlayerApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieves a specific player by ID associated with game/project. Example: retrieve player Jack from game Call of Duty.
-     * Retrieve player by ID
+     * Retrieve player asset by ID. Player asset represents a single asset that a player owns. It has amount field that represents how many of this asset player owns.
+     * Retrieve player asset by ID
      */
-    async getPlayerByIdRaw(requestParameters: GetPlayerByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Player>> {
+    async getPlayerAssetByIdRaw(requestParameters: GetPlayerAssetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlayerAsset>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getPlayerById.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getPlayerAssetById.');
         }
 
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getPlayerById.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getPlayerAssetById.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getPlayerById.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling getPlayerAssetById.');
         }
 
         const queryParameters: any = {};
@@ -193,7 +193,51 @@ export class PlayerApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/player/{project_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            path: `/v1/player-asset/{game_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"game_id"}}`, encodeURIComponent(String(requestParameters.gameId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlayerAssetFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve player asset by ID. Player asset represents a single asset that a player owns. It has amount field that represents how many of this asset player owns.
+     * Retrieve player asset by ID
+     */
+    async getPlayerAssetById(requestParameters: GetPlayerAssetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlayerAsset> {
+        const response = await this.getPlayerAssetByIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieves a specific player by ID associated with Game. Example: retrieve player Jack from game Call of Duty.
+     * Retrieve player by ID
+     */
+    async getPlayerByIdRaw(requestParameters: GetPlayerByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Player>> {
+        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getPlayerById.');
+        }
+
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getPlayerById.');
+        }
+
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling getPlayerById.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/v1/player/{game_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"game_id"}}`, encodeURIComponent(String(requestParameters.gameId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -203,7 +247,7 @@ export class PlayerApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieves a specific player by ID associated with game/project. Example: retrieve player Jack from game Call of Duty.
+     * Retrieves a specific player by ID associated with Game. Example: retrieve player Jack from game Call of Duty.
      * Retrieve player by ID
      */
     async getPlayerById(requestParameters: GetPlayerByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Player> {
@@ -220,14 +264,14 @@ export class PlayerApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getPlayers.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getPlayers.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling getPlayers.');
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.projectId !== undefined) {
-            queryParameters['project_id'] = requestParameters.projectId;
+        if (requestParameters.gameId !== undefined) {
+            queryParameters['game_id'] = requestParameters.gameId;
         }
 
         if (requestParameters.sort !== undefined) {
@@ -276,66 +320,22 @@ export class PlayerApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve player asset by ID. Player asset represents a single asset that a player owns. It has amount field that represents how many of this asset player owns.
-     * Retrieve player asset by ID
-     */
-    async playerAssetControllerPlayerAssetByIdRaw(requestParameters: PlayerAssetControllerPlayerAssetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlayerAsset>> {
-        if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling playerAssetControllerPlayerAssetById.');
-        }
-
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling playerAssetControllerPlayerAssetById.');
-        }
-
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling playerAssetControllerPlayerAssetById.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
-            headerParameters['Authorization'] = String(requestParameters.authorization);
-        }
-
-        const response = await this.request({
-            path: `/v1/player-asset/{project_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => PlayerAssetFromJSON(jsonValue));
-    }
-
-    /**
-     * Retrieve player asset by ID. Player asset represents a single asset that a player owns. It has amount field that represents how many of this asset player owns.
-     * Retrieve player asset by ID
-     */
-    async playerAssetControllerPlayerAssetById(requestParameters: PlayerAssetControllerPlayerAssetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlayerAsset> {
-        const response = await this.playerAssetControllerPlayerAssetByIdRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * This API method retrieves a list of Player assets that match the specified filter criteria. Developers can use this method to retrieve Player assets by player, game/project or other properties.
+     * This API method retrieves a list of Player assets that match the specified filter criteria. Developers can use this method to retrieve Player assets by player, Game or other properties.
      * Retrieve player assets
      */
-    async playerAssetControllerPlayerAssetsRaw(requestParameters: PlayerAssetControllerPlayerAssetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PlayerAsset>>> {
+    async playerAssetsRaw(requestParameters: PlayerAssetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PlayerAsset>>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling playerAssetControllerPlayerAssets.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling playerAssets.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling playerAssetControllerPlayerAssets.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling playerAssets.');
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.projectId !== undefined) {
-            queryParameters['project_id'] = requestParameters.projectId;
+        if (requestParameters.gameId !== undefined) {
+            queryParameters['game_id'] = requestParameters.gameId;
         }
 
         if (requestParameters.assetId !== undefined) {
@@ -379,11 +379,11 @@ export class PlayerApi extends runtime.BaseAPI {
     }
 
     /**
-     * This API method retrieves a list of Player assets that match the specified filter criteria. Developers can use this method to retrieve Player assets by player, game/project or other properties.
+     * This API method retrieves a list of Player assets that match the specified filter criteria. Developers can use this method to retrieve Player assets by player, Game or other properties.
      * Retrieve player assets
      */
-    async playerAssetControllerPlayerAssets(requestParameters: PlayerAssetControllerPlayerAssetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PlayerAsset>> {
-        const response = await this.playerAssetControllerPlayerAssetsRaw(requestParameters, initOverrides);
+    async playerAssets(requestParameters: PlayerAssetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PlayerAsset>> {
+        const response = await this.playerAssetsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

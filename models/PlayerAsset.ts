@@ -51,16 +51,16 @@ export interface PlayerAsset {
     collectionId: string;
     /**
      * The unique identifier of the account that the Player belongs to.
-     * @type {number}
-     * @memberof PlayerAsset
-     */
-    accountId: number;
-    /**
-     * The unique identifier of the project that the Player is associated with. This allows developers to organize their players by project and helps with tracking and reporting.
      * @type {string}
      * @memberof PlayerAsset
      */
-    projectId: string;
+    accountId: string;
+    /**
+     * The unique identifier of the game that the Player is associated with. This allows developers to organize their players by game and helps with tracking and reporting.
+     * @type {string}
+     * @memberof PlayerAsset
+     */
+    gameId: string;
     /**
      * The date when the player was created.
      * @type {Date}
@@ -75,16 +75,16 @@ export interface PlayerAsset {
     modifiedOn: Date;
     /**
      * The Id of the user who created the player.
-     * @type {number}
+     * @type {string}
      * @memberof PlayerAsset
      */
-    createdBy: number;
+    createdBy: string;
     /**
      * The Id of the user who last modified the player.
-     * @type {number}
+     * @type {string}
      * @memberof PlayerAsset
      */
-    modifiedBy: number;
+    modifiedBy: string;
 }
 
 /**
@@ -98,7 +98,7 @@ export function instanceOfPlayerAsset(value: object): boolean {
     isInstance = isInstance && "assetId" in value;
     isInstance = isInstance && "collectionId" in value;
     isInstance = isInstance && "accountId" in value;
-    isInstance = isInstance && "projectId" in value;
+    isInstance = isInstance && "gameId" in value;
     isInstance = isInstance && "createdOn" in value;
     isInstance = isInstance && "modifiedOn" in value;
     isInstance = isInstance && "createdBy" in value;
@@ -123,7 +123,7 @@ export function PlayerAssetFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'assetId': json['asset_id'],
         'collectionId': json['collection_id'],
         'accountId': json['account_id'],
-        'projectId': json['project_id'],
+        'gameId': json['game_id'],
         'createdOn': (new Date(json['created_on'])),
         'modifiedOn': (new Date(json['modified_on'])),
         'createdBy': json['created_by'],
@@ -146,7 +146,7 @@ export function PlayerAssetToJSON(value?: PlayerAsset | null): any {
         'asset_id': value.assetId,
         'collection_id': value.collectionId,
         'account_id': value.accountId,
-        'project_id': value.projectId,
+        'game_id': value.gameId,
         'created_on': (value.createdOn.toISOString()),
         'modified_on': (value.modifiedOn.toISOString()),
         'created_by': value.createdBy,

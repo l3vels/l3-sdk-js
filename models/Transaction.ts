@@ -110,23 +110,23 @@ export interface Transaction {
      */
     events: Array<string>;
     /**
-     * The unique identifier of the project that the transaction is associated with. This allows developers to organize their transactions by project and helps with tracking and reporting.
+     * The unique identifier of the game that the transaction is associated with. This allows developers to organize their transactions by game and helps with tracking and reporting.
      * @type {string}
      * @memberof Transaction
      */
-    projectId: string;
+    gameId: string;
     /**
-     * The unique identifier of the collection that the transaction is associated with. This allows developers to organize their transactions by project and helps with tracking and reporting.
+     * The unique identifier of the collection that the transaction is associated with. This allows developers to organize their transactions by game and helps with tracking and reporting.
      * @type {string}
      * @memberof Transaction
      */
     collectionId: string;
     /**
      * The unique identifier of the account that the transaction belongs to.
-     * @type {number}
+     * @type {string}
      * @memberof Transaction
      */
-    accountId: number;
+    accountId: string;
     /**
      * The date when the collection was created.
      * @type {Date}
@@ -141,16 +141,16 @@ export interface Transaction {
     modifiedOn: Date;
     /**
      * The Id of the user who created the collection.
-     * @type {number}
+     * @type {string}
      * @memberof Transaction
      */
-    createdBy: number;
+    createdBy: string;
     /**
      * The Id of the user who last modified the collection.
-     * @type {number}
+     * @type {string}
      * @memberof Transaction
      */
-    modifiedBy: number;
+    modifiedBy: string;
 }
 
 /**
@@ -173,7 +173,7 @@ export function instanceOfTransaction(value: object): boolean {
     isInstance = isInstance && "type" in value;
     isInstance = isInstance && "method" in value;
     isInstance = isInstance && "events" in value;
-    isInstance = isInstance && "projectId" in value;
+    isInstance = isInstance && "gameId" in value;
     isInstance = isInstance && "collectionId" in value;
     isInstance = isInstance && "accountId" in value;
     isInstance = isInstance && "createdOn" in value;
@@ -209,7 +209,7 @@ export function TransactionFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'type': json['type'],
         'method': json['method'],
         'events': json['events'],
-        'projectId': json['project_id'],
+        'gameId': json['game_id'],
         'collectionId': json['collection_id'],
         'accountId': json['account_id'],
         'createdOn': (new Date(json['created_on'])),
@@ -243,7 +243,7 @@ export function TransactionToJSON(value?: Transaction | null): any {
         'type': value.type,
         'method': value.method,
         'events': value.events,
-        'project_id': value.projectId,
+        'game_id': value.gameId,
         'collection_id': value.collectionId,
         'account_id': value.accountId,
         'created_on': (value.createdOn.toISOString()),

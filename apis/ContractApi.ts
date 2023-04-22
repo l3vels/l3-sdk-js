@@ -15,36 +15,36 @@
 
 import * as runtime from '../runtime';
 import type {
-  SetContractUriDto,
-  SetSaleStatusDto,
+  SetContractUriInput,
+  SetSaleStatusInput,
 } from '../models';
 import {
-    SetContractUriDtoFromJSON,
-    SetContractUriDtoToJSON,
-    SetSaleStatusDtoFromJSON,
-    SetSaleStatusDtoToJSON,
+    SetContractUriInputFromJSON,
+    SetContractUriInputToJSON,
+    SetSaleStatusInputFromJSON,
+    SetSaleStatusInputToJSON,
 } from '../models';
 
-export interface ContractControllerCollectionSizeRequest {
+export interface CountContractsByGameIdRequest {
     authorization: string;
     collectionId: string;
-    projectId: string;
+    gameId: string;
 }
 
-export interface ContractControllerContractUriRequest {
+export interface GetContractURIRequest {
     authorization: string;
     collectionId: string;
-    projectId: string;
+    gameId: string;
 }
 
-export interface ContractControllerSetContractUriRequest {
+export interface SetContractURIRequest {
     authorization: string;
-    setContractUriDto: SetContractUriDto;
+    setContractUriInput: SetContractUriInput;
 }
 
-export interface ContractControllerSetSaleStatusRequest {
+export interface UpdateSaleStatusRequest {
     authorization: string;
-    setSaleStatusDto: SetSaleStatusDto;
+    setSaleStatusInput: SetSaleStatusInput;
 }
 
 /**
@@ -53,20 +53,20 @@ export interface ContractControllerSetSaleStatusRequest {
 export class ContractApi extends runtime.BaseAPI {
 
     /**
-     * Get size of collection
+     * Count total contract in game.
      * Collection size
      */
-    async contractControllerCollectionSizeRaw(requestParameters: ContractControllerCollectionSizeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async countContractsByGameIdRaw(requestParameters: CountContractsByGameIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling contractControllerCollectionSize.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling countContractsByGameId.');
         }
 
         if (requestParameters.collectionId === null || requestParameters.collectionId === undefined) {
-            throw new runtime.RequiredError('collectionId','Required parameter requestParameters.collectionId was null or undefined when calling contractControllerCollectionSize.');
+            throw new runtime.RequiredError('collectionId','Required parameter requestParameters.collectionId was null or undefined when calling countContractsByGameId.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling contractControllerCollectionSize.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling countContractsByGameId.');
         }
 
         const queryParameters: any = {};
@@ -75,8 +75,8 @@ export class ContractApi extends runtime.BaseAPI {
             queryParameters['collection_id'] = requestParameters.collectionId;
         }
 
-        if (requestParameters.projectId !== undefined) {
-            queryParameters['project_id'] = requestParameters.projectId;
+        if (requestParameters.gameId !== undefined) {
+            queryParameters['game_id'] = requestParameters.gameId;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -96,28 +96,28 @@ export class ContractApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get size of collection
+     * Count total contract in game.
      * Collection size
      */
-    async contractControllerCollectionSize(requestParameters: ContractControllerCollectionSizeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.contractControllerCollectionSizeRaw(requestParameters, initOverrides);
+    async countContractsByGameId(requestParameters: CountContractsByGameIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.countContractsByGameIdRaw(requestParameters, initOverrides);
     }
 
     /**
      * Gets contract uri of contract
      * Get Contract URI
      */
-    async contractControllerContractUriRaw(requestParameters: ContractControllerContractUriRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getContractURIRaw(requestParameters: GetContractURIRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling contractControllerContractUri.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getContractURI.');
         }
 
         if (requestParameters.collectionId === null || requestParameters.collectionId === undefined) {
-            throw new runtime.RequiredError('collectionId','Required parameter requestParameters.collectionId was null or undefined when calling contractControllerContractUri.');
+            throw new runtime.RequiredError('collectionId','Required parameter requestParameters.collectionId was null or undefined when calling getContractURI.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling contractControllerContractUri.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling getContractURI.');
         }
 
         const queryParameters: any = {};
@@ -126,8 +126,8 @@ export class ContractApi extends runtime.BaseAPI {
             queryParameters['collection_id'] = requestParameters.collectionId;
         }
 
-        if (requestParameters.projectId !== undefined) {
-            queryParameters['project_id'] = requestParameters.projectId;
+        if (requestParameters.gameId !== undefined) {
+            queryParameters['game_id'] = requestParameters.gameId;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -150,21 +150,21 @@ export class ContractApi extends runtime.BaseAPI {
      * Gets contract uri of contract
      * Get Contract URI
      */
-    async contractControllerContractUri(requestParameters: ContractControllerContractUriRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.contractControllerContractUriRaw(requestParameters, initOverrides);
+    async getContractURI(requestParameters: GetContractURIRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.getContractURIRaw(requestParameters, initOverrides);
     }
 
     /**
      * Update Contract URI
      * Update Contract URI
      */
-    async contractControllerSetContractUriRaw(requestParameters: ContractControllerSetContractUriRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async setContractURIRaw(requestParameters: SetContractURIRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling contractControllerSetContractUri.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling setContractURI.');
         }
 
-        if (requestParameters.setContractUriDto === null || requestParameters.setContractUriDto === undefined) {
-            throw new runtime.RequiredError('setContractUriDto','Required parameter requestParameters.setContractUriDto was null or undefined when calling contractControllerSetContractUri.');
+        if (requestParameters.setContractUriInput === null || requestParameters.setContractUriInput === undefined) {
+            throw new runtime.RequiredError('setContractUriInput','Required parameter requestParameters.setContractUriInput was null or undefined when calling setContractURI.');
         }
 
         const queryParameters: any = {};
@@ -182,7 +182,7 @@ export class ContractApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: SetContractUriDtoToJSON(requestParameters.setContractUriDto),
+            body: SetContractUriInputToJSON(requestParameters.setContractUriInput),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -192,21 +192,21 @@ export class ContractApi extends runtime.BaseAPI {
      * Update Contract URI
      * Update Contract URI
      */
-    async contractControllerSetContractUri(requestParameters: ContractControllerSetContractUriRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.contractControllerSetContractUriRaw(requestParameters, initOverrides);
+    async setContractURI(requestParameters: SetContractURIRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.setContractURIRaw(requestParameters, initOverrides);
     }
 
     /**
      * Update Sale status to PAUSED, PRE_SALE or PUBLIC
      * Update Sale status
      */
-    async contractControllerSetSaleStatusRaw(requestParameters: ContractControllerSetSaleStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async updateSaleStatusRaw(requestParameters: UpdateSaleStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
-            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling contractControllerSetSaleStatus.');
+            throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling updateSaleStatus.');
         }
 
-        if (requestParameters.setSaleStatusDto === null || requestParameters.setSaleStatusDto === undefined) {
-            throw new runtime.RequiredError('setSaleStatusDto','Required parameter requestParameters.setSaleStatusDto was null or undefined when calling contractControllerSetSaleStatus.');
+        if (requestParameters.setSaleStatusInput === null || requestParameters.setSaleStatusInput === undefined) {
+            throw new runtime.RequiredError('setSaleStatusInput','Required parameter requestParameters.setSaleStatusInput was null or undefined when calling updateSaleStatus.');
         }
 
         const queryParameters: any = {};
@@ -224,7 +224,7 @@ export class ContractApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: SetSaleStatusDtoToJSON(requestParameters.setSaleStatusDto),
+            body: SetSaleStatusInputToJSON(requestParameters.setSaleStatusInput),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -234,8 +234,8 @@ export class ContractApi extends runtime.BaseAPI {
      * Update Sale status to PAUSED, PRE_SALE or PUBLIC
      * Update Sale status
      */
-    async contractControllerSetSaleStatus(requestParameters: ContractControllerSetSaleStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.contractControllerSetSaleStatusRaw(requestParameters, initOverrides);
+    async updateSaleStatus(requestParameters: UpdateSaleStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateSaleStatusRaw(requestParameters, initOverrides);
     }
 
 }

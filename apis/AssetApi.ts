@@ -16,32 +16,32 @@
 import * as runtime from '../runtime';
 import type {
   Asset,
-  AssetsResponseDto,
-  UpdateAssetDto,
+  AssetsResponse,
+  UpdateAssetInput,
 } from '../models';
 import {
     AssetFromJSON,
     AssetToJSON,
-    AssetsResponseDtoFromJSON,
-    AssetsResponseDtoToJSON,
-    UpdateAssetDtoFromJSON,
-    UpdateAssetDtoToJSON,
+    AssetsResponseFromJSON,
+    AssetsResponseToJSON,
+    UpdateAssetInputFromJSON,
+    UpdateAssetInputToJSON,
 } from '../models';
 
 export interface CountByGameRequest {
     authorization: string;
-    projectId: string;
+    gameId: string;
 }
 
 export interface GetAssetByIdRequest {
     authorization: string;
     id: string;
-    projectId: string;
+    gameId: string;
 }
 
 export interface GetAssetsRequest {
     authorization: string;
-    projectId: string;
+    gameId: string;
     collectionId?: string;
     sort?: string;
     order?: GetAssetsOrderEnum;
@@ -53,7 +53,7 @@ export interface GetAssetsRequest {
 export interface UpdateAssetRequest {
     authorization: string;
     id: string;
-    updateAssetDto: UpdateAssetDto;
+    updateAssetInput: UpdateAssetInput;
 }
 
 /**
@@ -70,8 +70,8 @@ export class AssetApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling countByGame.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling countByGame.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling countByGame.');
         }
 
         const queryParameters: any = {};
@@ -83,7 +83,7 @@ export class AssetApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/asset/count/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            path: `/v1/asset/count/{game_id}`.replace(`{${"game_id"}}`, encodeURIComponent(String(requestParameters.gameId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -106,7 +106,7 @@ export class AssetApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve asset by ID in specific game/project. Example: Find asset AK-47 in game Call of Duty
+     * Retrieve asset by ID in specific Game. Example: Find asset AK-47 in game Call of Duty
      * Retrieve asset by ID
      */
     async getAssetByIdRaw(requestParameters: GetAssetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Asset>> {
@@ -118,8 +118,8 @@ export class AssetApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getAssetById.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getAssetById.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling getAssetById.');
         }
 
         const queryParameters: any = {};
@@ -131,7 +131,7 @@ export class AssetApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/asset/{project_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            path: `/v1/asset/{game_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"game_id"}}`, encodeURIComponent(String(requestParameters.gameId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -141,7 +141,7 @@ export class AssetApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve asset by ID in specific game/project. Example: Find asset AK-47 in game Call of Duty
+     * Retrieve asset by ID in specific Game. Example: Find asset AK-47 in game Call of Duty
      * Retrieve asset by ID
      */
     async getAssetById(requestParameters: GetAssetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Asset> {
@@ -153,19 +153,19 @@ export class AssetApi extends runtime.BaseAPI {
      * This API method retrieves a list of assets that match the specified filter criteria. Developers can use this method to retrieve assets by name, description or other properties
      * Retrieve assets
      */
-    async getAssetsRaw(requestParameters: GetAssetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AssetsResponseDto>> {
+    async getAssetsRaw(requestParameters: GetAssetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AssetsResponse>> {
         if (requestParameters.authorization === null || requestParameters.authorization === undefined) {
             throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getAssets.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getAssets.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling getAssets.');
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.projectId !== undefined) {
-            queryParameters['project_id'] = requestParameters.projectId;
+        if (requestParameters.gameId !== undefined) {
+            queryParameters['game_id'] = requestParameters.gameId;
         }
 
         if (requestParameters.collectionId !== undefined) {
@@ -205,14 +205,14 @@ export class AssetApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => AssetsResponseDtoFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => AssetsResponseFromJSON(jsonValue));
     }
 
     /**
      * This API method retrieves a list of assets that match the specified filter criteria. Developers can use this method to retrieve assets by name, description or other properties
      * Retrieve assets
      */
-    async getAssets(requestParameters: GetAssetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AssetsResponseDto> {
+    async getAssets(requestParameters: GetAssetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AssetsResponse> {
         const response = await this.getAssetsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -230,8 +230,8 @@ export class AssetApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateAsset.');
         }
 
-        if (requestParameters.updateAssetDto === null || requestParameters.updateAssetDto === undefined) {
-            throw new runtime.RequiredError('updateAssetDto','Required parameter requestParameters.updateAssetDto was null or undefined when calling updateAsset.');
+        if (requestParameters.updateAssetInput === null || requestParameters.updateAssetInput === undefined) {
+            throw new runtime.RequiredError('updateAssetInput','Required parameter requestParameters.updateAssetInput was null or undefined when calling updateAsset.');
         }
 
         const queryParameters: any = {};
@@ -249,7 +249,7 @@ export class AssetApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: UpdateAssetDtoToJSON(requestParameters.updateAssetDto),
+            body: UpdateAssetInputToJSON(requestParameters.updateAssetInput),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AssetFromJSON(jsonValue));

@@ -24,18 +24,18 @@ import {
 
 export interface CountCollectionsByGameIdRequest {
     authorization: string;
-    projectId: string;
+    gameId: string;
 }
 
 export interface GetCollectionByIdRequest {
     authorization: string;
     id: string;
-    projectId: string;
+    gameId: string;
 }
 
 export interface GetCollectionsRequest {
     authorization: string;
-    projectId: string;
+    gameId: string;
     sort?: string;
     order?: string;
     searchText?: string;
@@ -57,8 +57,8 @@ export class CollectionApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling countCollectionsByGameId.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling countCollectionsByGameId.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling countCollectionsByGameId.');
         }
 
         const queryParameters: any = {};
@@ -70,7 +70,7 @@ export class CollectionApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/collection/count/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            path: `/v1/collection/count/{game_id}`.replace(`{${"game_id"}}`, encodeURIComponent(String(requestParameters.gameId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -105,8 +105,8 @@ export class CollectionApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getCollectionById.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getCollectionById.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling getCollectionById.');
         }
 
         const queryParameters: any = {};
@@ -118,7 +118,7 @@ export class CollectionApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/collection/{project_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            path: `/v1/collection/{game_id}/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"game_id"}}`, encodeURIComponent(String(requestParameters.gameId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -145,14 +145,14 @@ export class CollectionApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('authorization','Required parameter requestParameters.authorization was null or undefined when calling getCollections.');
         }
 
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getCollections.');
+        if (requestParameters.gameId === null || requestParameters.gameId === undefined) {
+            throw new runtime.RequiredError('gameId','Required parameter requestParameters.gameId was null or undefined when calling getCollections.');
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.projectId !== undefined) {
-            queryParameters['project_id'] = requestParameters.projectId;
+        if (requestParameters.gameId !== undefined) {
+            queryParameters['game_id'] = requestParameters.gameId;
         }
 
         if (requestParameters.sort !== undefined) {
