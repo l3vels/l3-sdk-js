@@ -4,7 +4,7 @@
   "generator-cli": {
     "version": "6.5.0"
   },
-  "generatorName": "typescript-fetch",
+  "generatorName": "typescript",
   "additionalProperties": {
     "snapshot": false,
     "withInterfaces": false,

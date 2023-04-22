@@ -8,7 +8,7 @@ USERNAME="${USERNAME:-"Giga Chkhikvadze"}"
 USER_EMAIL="${USER_EMAIL:-"giga.chkhikvadze@gmail.com"}"
 
 # Set the OpenAPI Generator options
-OUTPUT_DIR="$(pwd)"
+OUTPUT_DIR="$(pwd)/typescript"
 
 
 # Generate the client or server code
