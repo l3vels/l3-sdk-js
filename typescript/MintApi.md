@@ -32,7 +32,6 @@ let body:.MintApiAirdropAssetToPlayerRequest = {
   authorization: "Authorization_example",
   // MintInput
   mintInput: {
-    contractId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     gameId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     collectionId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     playerAddress: "0x0000000000000000000000000000000000000000",
@@ -103,7 +102,6 @@ let body:.MintApiAwardAssetToPlayerRequest = {
   authorization: "Authorization_example",
   // MintInput
   mintInput: {
-    contractId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     gameId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     collectionId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     playerAddress: "0x0000000000000000000000000000000000000000",
@@ -246,7 +244,6 @@ let body:.MintApiMintAssetRequest = {
   authorization: "Authorization_example",
   // MintInput
   mintInput: {
-    contractId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     gameId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     collectionId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     playerAddress: "0x0000000000000000000000000000000000000000",
@@ -317,7 +314,6 @@ let body:.MintApiMintAssetByPlayerRequest = {
   authorization: "Authorization_example",
   // MintInput
   mintInput: {
-    contractId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     gameId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     collectionId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
     playerAddress: "0x0000000000000000000000000000000000000000",

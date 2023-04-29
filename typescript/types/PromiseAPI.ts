@@ -228,10 +228,10 @@ export class PromiseGameApi {
      * Get Game by ID created on the platform.
      * Retrieve Game
      * @param authorization API key is associated with multiple games. Please include it in to use developers API.
-     * @param id Game or Game Id
+     * @param gameId Game ID
      */
-    public getGameById(authorization: string, id: string, _options?: Configuration): Promise<Game> {
-        const result = this.api.getGameById(authorization, id, _options);
+    public getGameById(authorization: string, gameId: string, _options?: Configuration): Promise<Game> {
+        const result = this.api.getGameById(authorization, gameId, _options);
         return result.toPromise();
     }
 

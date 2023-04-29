@@ -19,9 +19,9 @@ export class GameApiRequestFactory extends BaseAPIRequestFactory {
      * Get Game by ID created on the platform.
      * Retrieve Game
      * @param authorization API key is associated with multiple games. Please include it in to use developers API.
-     * @param id Game or Game Id
+     * @param gameId Game ID
      */
-    public async getGameById(authorization: string, id: string, _options?: Configuration): Promise<RequestContext> {
+    public async getGameById(authorization: string, gameId: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'authorization' is not null or undefined
@@ -30,15 +30,15 @@ export class GameApiRequestFactory extends BaseAPIRequestFactory {
         }
 
 
-        // verify required parameter 'id' is not null or undefined
-        if (id === null || id === undefined) {
-            throw new RequiredError("GameApi", "getGameById", "id");
+        // verify required parameter 'gameId' is not null or undefined
+        if (gameId === null || gameId === undefined) {
+            throw new RequiredError("GameApi", "getGameById", "gameId");
         }
 
 
         // Path Params
-        const localVarPath = '/v1/game/{id}'
-            .replace('{' + 'id' + '}', encodeURIComponent(String(id)));
+        const localVarPath = '/v1/game/{game_id}'
+            .replace('{' + 'game_id' + '}', encodeURIComponent(String(gameId)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);

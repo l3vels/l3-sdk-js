@@ -4,7 +4,7 @@ All URIs are relative to *https://api-dev.l3vels.xyz*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getGameById**](GameApi.md#getGameById) | **GET** /v1/game/{id} | Retrieve Game
+[**getGameById**](GameApi.md#getGameById) | **GET** /v1/game/{game_id} | Retrieve Game
 
 
 # **getGameById**
@@ -25,8 +25,8 @@ const apiInstance = new .GameApi(configuration);
 let body:.GameApiGetGameByIdRequest = {
   // string | API key is associated with multiple games. Please include it in to use developers API.
   authorization: "Authorization_example",
-  // string | Game or Game Id
-  id: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
+  // string | Game ID
+  gameId: "a44b646a-ae14-4e05-ae09-b12d5e7269bf",
 };
 
 apiInstance.getGameById(body).then((data:any) => {
@@ -40,7 +40,7 @@ apiInstance.getGameById(body).then((data:any) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | [**string**] | API key is associated with multiple games. Please include it in to use developers API. | defaults to undefined
- **id** | [**string**] | Game or Game Id | defaults to undefined
+ **gameId** | [**string**] | Game ID | defaults to undefined
 
 
 ### Return type

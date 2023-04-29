@@ -424,11 +424,11 @@ export interface GameApiGetGameByIdRequest {
      */
     authorization: string
     /**
-     * Game or Game Id
+     * Game ID
      * @type string
      * @memberof GameApigetGameById
      */
-    id: string
+    gameId: string
 }
 
 export class ObjectGameApi {
@@ -444,7 +444,7 @@ export class ObjectGameApi {
      * @param param the request object
      */
     public getGameById(param: GameApiGetGameByIdRequest, options?: Configuration): Promise<Game> {
-        return this.api.getGameById(param.authorization, param.id,  options).toPromise();
+        return this.api.getGameById(param.authorization, param.gameId,  options).toPromise();
     }
 
 }

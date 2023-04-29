@@ -15,10 +15,6 @@ import { HttpFile } from '../http/http';
 
 export class MintInput {
     /**
-    * Contract ID
-    */
-    'contractId'?: string;
-    /**
     * Game ID. Example: Call of Duty
     */
     'gameId': string;
@@ -39,12 +35,6 @@ export class MintInput {
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
-        {
-            "name": "contractId",
-            "baseName": "contract_id",
-            "type": "string",
-            "format": ""
-        },
         {
             "name": "gameId",
             "baseName": "game_id",
