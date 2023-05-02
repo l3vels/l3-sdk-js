@@ -32,11 +32,19 @@ export class Asset {
     /**
     * Custom properties of the asset.
     */
-    'properties': any;
+    'properties': string;
     /**
     * Custom attributes of the asset.
     */
     'attributes': any;
+    /**
+    * Achievements of the asset.
+    */
+    'achievements': Array<string>;
+    /**
+    * Rewards of the asset.
+    */
+    'rewards': Array<string>;
     /**
     * The description of the asset.
     */
@@ -132,13 +140,25 @@ export class Asset {
         {
             "name": "properties",
             "baseName": "properties",
-            "type": "any",
+            "type": "string",
             "format": ""
         },
         {
             "name": "attributes",
             "baseName": "attributes",
             "type": "any",
+            "format": ""
+        },
+        {
+            "name": "achievements",
+            "baseName": "achievements",
+            "type": "Array<string>",
+            "format": ""
+        },
+        {
+            "name": "rewards",
+            "baseName": "rewards",
+            "type": "Array<string>",
             "format": ""
         },
         {
