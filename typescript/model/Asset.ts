@@ -32,7 +32,7 @@ export class Asset {
     /**
     * Custom properties of the asset.
     */
-    'properties': string;
+    'properties': Array<string>;
     /**
     * Custom attributes of the asset.
     */
@@ -140,7 +140,7 @@ export class Asset {
         {
             "name": "properties",
             "baseName": "properties",
-            "type": "string",
+            "type": "Array<string>",
             "format": ""
         },
         {
