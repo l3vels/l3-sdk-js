@@ -853,28 +853,6 @@ export class ObservableTransactionApi {
             }));
     }
 
-    /**
-     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
-     */
-    public transactionControllerWebhook(authorization: string, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.transactionControllerWebhook(authorization, _options);
-
-        // build promise chain
-        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (let middleware of this.configuration.middleware) {
-            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
-        }
-
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
-            pipe(mergeMap((response: ResponseContext) => {
-                let middlewarePostObservable = of(response);
-                for (let middleware of this.configuration.middleware) {
-                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
-                }
-                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.transactionControllerWebhook(rsp)));
-            }));
-    }
-
 }
 
 import { UtilitiesApiRequestFactory, UtilitiesApiResponseProcessor} from "../apis/UtilitiesApi";

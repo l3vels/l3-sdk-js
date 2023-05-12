@@ -477,14 +477,6 @@ export class PromiseTransactionApi {
         return result.toPromise();
     }
 
-    /**
-     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
-     */
-    public transactionControllerWebhook(authorization: string, _options?: Configuration): Promise<void> {
-        const result = this.api.transactionControllerWebhook(authorization, _options);
-        return result.toPromise();
-    }
-
 
 }
 

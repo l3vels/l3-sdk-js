@@ -938,15 +938,6 @@ export interface TransactionApiGetTransactionsRequest {
     page?: number
 }
 
-export interface TransactionApiTransactionControllerWebhookRequest {
-    /**
-     * API key is associated with multiple games. Please include it in to use developers API.
-     * @type string
-     * @memberof TransactionApitransactionControllerWebhook
-     */
-    authorization: string
-}
-
 export class ObjectTransactionApi {
     private api: ObservableTransactionApi
 
@@ -970,13 +961,6 @@ export class ObjectTransactionApi {
      */
     public getTransactions(param: TransactionApiGetTransactionsRequest, options?: Configuration): Promise<Transaction> {
         return this.api.getTransactions(param.authorization, param.gameId, param.collectionId, param.playerId, param.sort, param.order, param.searchText, param.limit, param.page,  options).toPromise();
-    }
-
-    /**
-     * @param param the request object
-     */
-    public transactionControllerWebhook(param: TransactionApiTransactionControllerWebhookRequest, options?: Configuration): Promise<void> {
-        return this.api.transactionControllerWebhook(param.authorization,  options).toPromise();
     }
 
 }
