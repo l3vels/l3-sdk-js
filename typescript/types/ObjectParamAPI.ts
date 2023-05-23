@@ -413,6 +413,28 @@ export class ObjectContractApi {
 
 }
 
+import { ObservableDefaultApi } from "./ObservableAPI";
+import { DefaultApiRequestFactory, DefaultApiResponseProcessor} from "../apis/DefaultApi";
+
+export interface DefaultApiChatControllerWebhookRequest {
+}
+
+export class ObjectDefaultApi {
+    private api: ObservableDefaultApi
+
+    public constructor(configuration: Configuration, requestFactory?: DefaultApiRequestFactory, responseProcessor?: DefaultApiResponseProcessor) {
+        this.api = new ObservableDefaultApi(configuration, requestFactory, responseProcessor);
+    }
+
+    /**
+     * @param param the request object
+     */
+    public chatControllerWebhook(param: DefaultApiChatControllerWebhookRequest = {}, options?: Configuration): Promise<void> {
+        return this.api.chatControllerWebhook( options).toPromise();
+    }
+
+}
+
 import { ObservableGameApi } from "./ObservableAPI";
 import { GameApiRequestFactory, GameApiResponseProcessor} from "../apis/GameApi";
 
