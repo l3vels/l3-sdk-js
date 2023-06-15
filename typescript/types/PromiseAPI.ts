@@ -102,6 +102,17 @@ export class PromiseCollectionApi {
     }
 
     /**
+     * This API method creates collection in a specified game
+     * Create a new collection inside specific game
+     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
+     * @param body 
+     */
+    public collectionControllerCreateCollection(authorization: string, body: any, _options?: Configuration): Promise<Collection> {
+        const result = this.api.collectionControllerCreateCollection(authorization, body, _options);
+        return result.toPromise();
+    }
+
+    /**
      * Count total collections in game.
      * Count collections
      * @param authorization API key is associated with multiple games. Please include it in to use developers API.
@@ -248,6 +259,32 @@ export class PromiseGameApi {
         responseProcessor?: GameApiResponseProcessor
     ) {
         this.api = new ObservableGameApi(configuration, requestFactory, responseProcessor);
+    }
+
+    /**
+     * Create game on platform.
+     * Create Game
+     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
+     * @param body 
+     */
+    public createGame(authorization: string, body: any, _options?: Configuration): Promise<Game> {
+        const result = this.api.createGame(authorization, body, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Retrieve all your games/games created on the platform. You can filter games by name, description. You can sort games by field
+     * Retrieve all games
+     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
+     * @param gameId Game ID
+     * @param sort In which order to sort the results. Can be ASC for ascending or DESC for descending order
+     * @param searchText Filter by game name or description
+     * @param limit Number of players to return per page
+     * @param page Page number
+     */
+    public gameControllerGetGames(authorization: string, gameId: string, sort?: string, searchText?: string, limit?: number, page?: number, _options?: Configuration): Promise<Game> {
+        const result = this.api.gameControllerGetGames(authorization, gameId, sort, searchText, limit, page, _options);
+        return result.toPromise();
     }
 
     /**

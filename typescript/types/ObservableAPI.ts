@@ -161,6 +161,31 @@ export class ObservableCollectionApi {
     }
 
     /**
+     * This API method creates collection in a specified game
+     * Create a new collection inside specific game
+     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
+     * @param body 
+     */
+    public collectionControllerCreateCollection(authorization: string, body: any, _options?: Configuration): Observable<Collection> {
+        const requestContextPromise = this.requestFactory.collectionControllerCreateCollection(authorization, body, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.collectionControllerCreateCollection(rsp)));
+            }));
+    }
+
+    /**
      * Count total collections in game.
      * Count collections
      * @param authorization API key is associated with multiple games. Please include it in to use developers API.
@@ -416,6 +441,60 @@ export class ObservableGameApi {
         this.configuration = configuration;
         this.requestFactory = requestFactory || new GameApiRequestFactory(configuration);
         this.responseProcessor = responseProcessor || new GameApiResponseProcessor();
+    }
+
+    /**
+     * Create game on platform.
+     * Create Game
+     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
+     * @param body 
+     */
+    public createGame(authorization: string, body: any, _options?: Configuration): Observable<Game> {
+        const requestContextPromise = this.requestFactory.createGame(authorization, body, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.createGame(rsp)));
+            }));
+    }
+
+    /**
+     * Retrieve all your games/games created on the platform. You can filter games by name, description. You can sort games by field
+     * Retrieve all games
+     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
+     * @param gameId Game ID
+     * @param sort In which order to sort the results. Can be ASC for ascending or DESC for descending order
+     * @param searchText Filter by game name or description
+     * @param limit Number of players to return per page
+     * @param page Page number
+     */
+    public gameControllerGetGames(authorization: string, gameId: string, sort?: string, searchText?: string, limit?: number, page?: number, _options?: Configuration): Observable<Game> {
+        const requestContextPromise = this.requestFactory.gameControllerGetGames(authorization, gameId, sort, searchText, limit, page, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.gameControllerGetGames(rsp)));
+            }));
     }
 
     /**

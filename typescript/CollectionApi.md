@@ -4,10 +4,75 @@ All URIs are relative to *https://api-dev.l3vels.xyz*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**collectionControllerCreateCollection**](CollectionApi.md#collectionControllerCreateCollection) | **POST** /v1/collection | Create a new collection inside specific game
 [**countCollectionsByGameId**](CollectionApi.md#countCollectionsByGameId) | **GET** /v1/collection/count/{game_id} | Count collections
 [**getCollectionById**](CollectionApi.md#getCollectionById) | **GET** /v1/collection/{game_id}/{id} | Retrieve collection by ID
 [**getCollections**](CollectionApi.md#getCollections) | **GET** /v1/collection | Retrieve collections
 
+
+# **collectionControllerCreateCollection**
+> Collection collectionControllerCreateCollection(body)
+
+This API method creates collection in a specified game
+
+### Example
+
+
+```typescript
+import {  } from '';
+import * as fs from 'fs';
+
+const configuration = .createConfiguration();
+const apiInstance = new .CollectionApi(configuration);
+
+let body:.CollectionApiCollectionControllerCreateCollectionRequest = {
+  // string | API key is associated with multiple games. Please include it in to use developers API.
+  authorization: "Authorization_example",
+  // any
+  body: {},
+};
+
+apiInstance.collectionControllerCreateCollection(body).then((data:any) => {
+  console.log('API called successfully. Returned data: ' + data);
+}).catch((error:any) => console.error(error));
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **any**|  |
+ **authorization** | [**string**] | API key is associated with multiple games. Please include it in to use developers API. | defaults to undefined
+
+
+### Return type
+
+**Collection**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | The collection has been created. |  -  |
+**400** | Bad Request, The request was unacceptable, often due to missing a required parameter. |  -  |
+**401** | Unauthorized, No valid API key provided. |  -  |
+**404** | Not Found, The requested resource doesn&#39;t exist. |  -  |
+**409** | Conflict, The request conflicts with another request (perhaps due to using the same idempotent key). |  -  |
+**429** | Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests. |  -  |
+**500** | Server Errors, Something went wrong on L3vels&#39;s end. |  -  |
+**504** | Gateway Timeout, Your request took too long. |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **countCollectionsByGameId**
 > number countCollectionsByGameId()

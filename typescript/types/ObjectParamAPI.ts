@@ -176,6 +176,21 @@ export class ObjectAssetApi {
 import { ObservableCollectionApi } from "./ObservableAPI";
 import { CollectionApiRequestFactory, CollectionApiResponseProcessor} from "../apis/CollectionApi";
 
+export interface CollectionApiCollectionControllerCreateCollectionRequest {
+    /**
+     * API key is associated with multiple games. Please include it in to use developers API.
+     * @type string
+     * @memberof CollectionApicollectionControllerCreateCollection
+     */
+    authorization: string
+    /**
+     * 
+     * @type any
+     * @memberof CollectionApicollectionControllerCreateCollection
+     */
+    body: any
+}
+
 export interface CollectionApiCountCollectionsByGameIdRequest {
     /**
      * API key is associated with multiple games. Please include it in to use developers API.
@@ -262,6 +277,15 @@ export class ObjectCollectionApi {
 
     public constructor(configuration: Configuration, requestFactory?: CollectionApiRequestFactory, responseProcessor?: CollectionApiResponseProcessor) {
         this.api = new ObservableCollectionApi(configuration, requestFactory, responseProcessor);
+    }
+
+    /**
+     * This API method creates collection in a specified game
+     * Create a new collection inside specific game
+     * @param param the request object
+     */
+    public collectionControllerCreateCollection(param: CollectionApiCollectionControllerCreateCollectionRequest, options?: Configuration): Promise<Collection> {
+        return this.api.collectionControllerCreateCollection(param.authorization, param.body,  options).toPromise();
     }
 
     /**
@@ -438,6 +462,60 @@ export class ObjectDefaultApi {
 import { ObservableGameApi } from "./ObservableAPI";
 import { GameApiRequestFactory, GameApiResponseProcessor} from "../apis/GameApi";
 
+export interface GameApiCreateGameRequest {
+    /**
+     * API key is associated with multiple games. Please include it in to use developers API.
+     * @type string
+     * @memberof GameApicreateGame
+     */
+    authorization: string
+    /**
+     * 
+     * @type any
+     * @memberof GameApicreateGame
+     */
+    body: any
+}
+
+export interface GameApiGameControllerGetGamesRequest {
+    /**
+     * API key is associated with multiple games. Please include it in to use developers API.
+     * @type string
+     * @memberof GameApigameControllerGetGames
+     */
+    authorization: string
+    /**
+     * Game ID
+     * @type string
+     * @memberof GameApigameControllerGetGames
+     */
+    gameId: string
+    /**
+     * In which order to sort the results. Can be ASC for ascending or DESC for descending order
+     * @type string
+     * @memberof GameApigameControllerGetGames
+     */
+    sort?: string
+    /**
+     * Filter by game name or description
+     * @type string
+     * @memberof GameApigameControllerGetGames
+     */
+    searchText?: string
+    /**
+     * Number of players to return per page
+     * @type number
+     * @memberof GameApigameControllerGetGames
+     */
+    limit?: number
+    /**
+     * Page number
+     * @type number
+     * @memberof GameApigameControllerGetGames
+     */
+    page?: number
+}
+
 export interface GameApiGetGameByIdRequest {
     /**
      * API key is associated with multiple games. Please include it in to use developers API.
@@ -458,6 +536,24 @@ export class ObjectGameApi {
 
     public constructor(configuration: Configuration, requestFactory?: GameApiRequestFactory, responseProcessor?: GameApiResponseProcessor) {
         this.api = new ObservableGameApi(configuration, requestFactory, responseProcessor);
+    }
+
+    /**
+     * Create game on platform.
+     * Create Game
+     * @param param the request object
+     */
+    public createGame(param: GameApiCreateGameRequest, options?: Configuration): Promise<Game> {
+        return this.api.createGame(param.authorization, param.body,  options).toPromise();
+    }
+
+    /**
+     * Retrieve all your games/games created on the platform. You can filter games by name, description. You can sort games by field
+     * Retrieve all games
+     * @param param the request object
+     */
+    public gameControllerGetGames(param: GameApiGameControllerGetGamesRequest, options?: Configuration): Promise<Game> {
+        return this.api.gameControllerGetGames(param.authorization, param.gameId, param.sort, param.searchText, param.limit, param.page,  options).toPromise();
     }
 
     /**
