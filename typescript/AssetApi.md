@@ -5,6 +5,7 @@ All URIs are relative to *https://api-dev.l3vels.xyz*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**countByGame**](AssetApi.md#countByGame) | **GET** /v1/asset/count/{game_id} | Count assets
+[**createAsset**](AssetApi.md#createAsset) | **POST** /v1/asset | Create asset 
 [**getAssetById**](AssetApi.md#getAssetById) | **GET** /v1/asset/{game_id}/{id} | Retrieve asset by ID
 [**getAssets**](AssetApi.md#getAssets) | **GET** /v1/asset | Retrieve assets
 [**updateAsset**](AssetApi.md#updateAsset) | **PATCH** /v1/asset/{id} | Update asset
@@ -64,6 +65,70 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | The assets has been counted. |  -  |
+**400** | Bad Request, The request was unacceptable, often due to missing a required parameter. |  -  |
+**401** | Unauthorized, No valid API key provided. |  -  |
+**404** | Not Found, The requested resource doesn&#39;t exist. |  -  |
+**409** | Conflict, The request conflicts with another request (perhaps due to using the same idempotent key). |  -  |
+**429** | Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests. |  -  |
+**500** | Server Errors, Something went wrong on L3vels&#39;s end. |  -  |
+**504** | Gateway Timeout, Your request took too long. |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **createAsset**
+> Asset createAsset(body)
+
+Create asset in specific collection. Example: Create asset AK-47 in collection Weapons
+
+### Example
+
+
+```typescript
+import {  } from '';
+import * as fs from 'fs';
+
+const configuration = .createConfiguration();
+const apiInstance = new .AssetApi(configuration);
+
+let body:.AssetApiCreateAssetRequest = {
+  // string | API key is associated with multiple games. Please include it in to use developers API.
+  authorization: "Authorization_example",
+  // any
+  body: {},
+};
+
+apiInstance.createAsset(body).then((data:any) => {
+  console.log('API called successfully. Returned data: ' + data);
+}).catch((error:any) => console.error(error));
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **any**|  |
+ **authorization** | [**string**] | API key is associated with multiple games. Please include it in to use developers API. | defaults to undefined
+
+
+### Return type
+
+**Asset**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | The asset has been created. |  -  |
 **400** | Bad Request, The request was unacceptable, often due to missing a required parameter. |  -  |
 **401** | Unauthorized, No valid API key provided. |  -  |
 **404** | Not Found, The requested resource doesn&#39;t exist. |  -  |

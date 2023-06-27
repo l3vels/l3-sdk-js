@@ -60,6 +60,31 @@ export class ObservableAssetApi {
     }
 
     /**
+     * Create asset in specific collection. Example: Create asset AK-47 in collection Weapons
+     * Create asset 
+     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
+     * @param body 
+     */
+    public createAsset(authorization: string, body: any, _options?: Configuration): Observable<Asset> {
+        const requestContextPromise = this.requestFactory.createAsset(authorization, body, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.createAsset(rsp)));
+            }));
+    }
+
+    /**
      * Retrieve asset by ID in specific Game. Example: Find asset AK-47 in game Call of Duty
      * Retrieve asset by ID
      * @param authorization API key is associated with multiple games. Please include it in to use developers API.
@@ -405,6 +430,28 @@ export class ObservableDefaultApi {
     }
 
     /**
+     * @param sql 
+     */
+    public chatControllerGetSqlReport(sql: string, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.chatControllerGetSqlReport(sql, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.chatControllerGetSqlReport(rsp)));
+            }));
+    }
+
+    /**
      */
     public chatControllerWebhook(_options?: Configuration): Observable<void> {
         const requestContextPromise = this.requestFactory.chatControllerWebhook(_options);
@@ -519,6 +566,31 @@ export class ObservableGameApi {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.getGameById(rsp)));
+            }));
+    }
+
+    /**
+     * Get Game by Name created on the platform.
+     * Retrieve Game By Name
+     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
+     * @param name 
+     */
+    public getGameByName(authorization: string, name: string, _options?: Configuration): Observable<Game> {
+        const requestContextPromise = this.requestFactory.getGameByName(authorization, name, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.getGameByName(rsp)));
             }));
     }
 

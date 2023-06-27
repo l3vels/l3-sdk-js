@@ -35,6 +35,21 @@ export interface AssetApiCountByGameRequest {
     gameId: string
 }
 
+export interface AssetApiCreateAssetRequest {
+    /**
+     * API key is associated with multiple games. Please include it in to use developers API.
+     * @type string
+     * @memberof AssetApicreateAsset
+     */
+    authorization: string
+    /**
+     * 
+     * @type any
+     * @memberof AssetApicreateAsset
+     */
+    body: any
+}
+
 export interface AssetApiGetAssetByIdRequest {
     /**
      * API key is associated with multiple games. Please include it in to use developers API.
@@ -142,6 +157,15 @@ export class ObjectAssetApi {
      */
     public countByGame(param: AssetApiCountByGameRequest, options?: Configuration): Promise<number> {
         return this.api.countByGame(param.authorization, param.gameId,  options).toPromise();
+    }
+
+    /**
+     * Create asset in specific collection. Example: Create asset AK-47 in collection Weapons
+     * Create asset 
+     * @param param the request object
+     */
+    public createAsset(param: AssetApiCreateAssetRequest, options?: Configuration): Promise<Asset> {
+        return this.api.createAsset(param.authorization, param.body,  options).toPromise();
     }
 
     /**
@@ -440,6 +464,15 @@ export class ObjectContractApi {
 import { ObservableDefaultApi } from "./ObservableAPI";
 import { DefaultApiRequestFactory, DefaultApiResponseProcessor} from "../apis/DefaultApi";
 
+export interface DefaultApiChatControllerGetSqlReportRequest {
+    /**
+     * 
+     * @type string
+     * @memberof DefaultApichatControllerGetSqlReport
+     */
+    sql: string
+}
+
 export interface DefaultApiChatControllerWebhookRequest {
 }
 
@@ -448,6 +481,13 @@ export class ObjectDefaultApi {
 
     public constructor(configuration: Configuration, requestFactory?: DefaultApiRequestFactory, responseProcessor?: DefaultApiResponseProcessor) {
         this.api = new ObservableDefaultApi(configuration, requestFactory, responseProcessor);
+    }
+
+    /**
+     * @param param the request object
+     */
+    public chatControllerGetSqlReport(param: DefaultApiChatControllerGetSqlReportRequest, options?: Configuration): Promise<void> {
+        return this.api.chatControllerGetSqlReport(param.sql,  options).toPromise();
     }
 
     /**
@@ -531,6 +571,21 @@ export interface GameApiGetGameByIdRequest {
     gameId: string
 }
 
+export interface GameApiGetGameByNameRequest {
+    /**
+     * API key is associated with multiple games. Please include it in to use developers API.
+     * @type string
+     * @memberof GameApigetGameByName
+     */
+    authorization: string
+    /**
+     * 
+     * @type string
+     * @memberof GameApigetGameByName
+     */
+    name: string
+}
+
 export class ObjectGameApi {
     private api: ObservableGameApi
 
@@ -563,6 +618,15 @@ export class ObjectGameApi {
      */
     public getGameById(param: GameApiGetGameByIdRequest, options?: Configuration): Promise<Game> {
         return this.api.getGameById(param.authorization, param.gameId,  options).toPromise();
+    }
+
+    /**
+     * Get Game by Name created on the platform.
+     * Retrieve Game By Name
+     * @param param the request object
+     */
+    public getGameByName(param: GameApiGetGameByNameRequest, options?: Configuration): Promise<Game> {
+        return this.api.getGameByName(param.authorization, param.name,  options).toPromise();
     }
 
 }

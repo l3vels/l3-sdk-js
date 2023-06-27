@@ -42,6 +42,17 @@ export class PromiseAssetApi {
     }
 
     /**
+     * Create asset in specific collection. Example: Create asset AK-47 in collection Weapons
+     * Create asset 
+     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
+     * @param body 
+     */
+    public createAsset(authorization: string, body: any, _options?: Configuration): Promise<Asset> {
+        const result = this.api.createAsset(authorization, body, _options);
+        return result.toPromise();
+    }
+
+    /**
      * Retrieve asset by ID in specific Game. Example: Find asset AK-47 in game Call of Duty
      * Retrieve asset by ID
      * @param authorization API key is associated with multiple games. Please include it in to use developers API.
@@ -236,6 +247,14 @@ export class PromiseDefaultApi {
     }
 
     /**
+     * @param sql 
+     */
+    public chatControllerGetSqlReport(sql: string, _options?: Configuration): Promise<void> {
+        const result = this.api.chatControllerGetSqlReport(sql, _options);
+        return result.toPromise();
+    }
+
+    /**
      */
     public chatControllerWebhook(_options?: Configuration): Promise<void> {
         const result = this.api.chatControllerWebhook(_options);
@@ -295,6 +314,17 @@ export class PromiseGameApi {
      */
     public getGameById(authorization: string, gameId: string, _options?: Configuration): Promise<Game> {
         const result = this.api.getGameById(authorization, gameId, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Get Game by Name created on the platform.
+     * Retrieve Game By Name
+     * @param authorization API key is associated with multiple games. Please include it in to use developers API.
+     * @param name 
+     */
+    public getGameByName(authorization: string, name: string, _options?: Configuration): Promise<Game> {
+        const result = this.api.getGameByName(authorization, name, _options);
         return result.toPromise();
     }
 
